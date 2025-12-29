@@ -299,7 +299,7 @@ createParticleBurst(flipCard) {
     detectTheme(past, present, future) {
         const themes = [
             {
-                name: '鎴愰暱涓庤浆鍙?
+                name: '成长与转变',
                 keywords: ['寮€锟?, '杞彉', '鎴愰暱', '鍔涢噺', '鎴愬姛', '鎴愬氨'],
                 description: '浣犳鍦ㄧ粡鍘嗛噸瑕佺殑涓汉鎴愰暱'
             },
