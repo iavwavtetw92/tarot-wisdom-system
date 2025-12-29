@@ -189,9 +189,9 @@ class ThreeCardSpread {
         const presentColor = present.isReversed ? '#ff6b6b' : '#ffd700';
         const futureColor = future.isReversed ? '#ff6b6b' : '#ffd700';
 
-        const pastKeywords = past.isReversed ? past.reversed.keywords : past.keywords;
-        const presentKeywords = present.isReversed ? present.reversed.keywords : present.keywords;
-        const futureKeywords = future.isReversed ? future.reversed.keywords : future.keywords;
+        const pastKeywords = (past.isReversed && past.reversed.keywords) ? past.reversed.keywords : past.keywords;
+        const presentKeywords = (present.isReversed && present.reversed.keywords) ? present.reversed.keywords : present.keywords;
+        const futureKeywords = (future.isReversed && future.reversed.keywords) ? future.reversed.keywords : future.keywords;
 
         const pastMeaning = past.isReversed ? past.reversed.meaning : past.upright.meaning;
         const presentMeaning = present.isReversed ? present.reversed.meaning : present.upright.meaning;
