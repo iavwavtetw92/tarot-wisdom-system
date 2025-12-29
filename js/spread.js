@@ -297,106 +297,20 @@ createParticleBurst(flipCard) {
     }
 
     detectTheme(past, present, future) {
-    detectTheme(past, present, future) {
+        // Simplified theme detection with English keywords
         const themes = [
-            {
-                name: 'growth',
-                keywords: ['begin', 'change', 'power', 'success'],
-                description: 'Personal growth journey'
-            },
-            {
-                name: 'relationship',
-                keywords: ['love', 'partner', 'choice', 'connection'],
-                description: 'Focus on relationships'
-            },
-            {
-                name: 'challenge',
-                keywords: ['difficulty', 'obstacle', 'conflict', 'crisis'],
-                description: 'Facing challenges'
-            },
-            {
-                name: 'intuition',
-                keywords: ['wisdom', 'hidden', 'mystery', 'inner'],
-                description: 'Listen to inner voice'
+            { name: 'Growth', keywords: ['fool', 'magician', 'strength', 'star'] },
+            { name: 'Relationship', keywords: ['lovers', 'empress', 'two'] },
+            { name: 'Challenge', keywords: ['tower', 'devil', 'death'] },
+            { name: 'Wisdom', keywords: ['hermit', 'priestess', 'hierophant'] }
+        ];
+        
+        const cardIds = [past.id, present.id, future.id];
+        let matchedTheme = themes[0];
+        
+        for (const theme of themes) {
+            if (cardIds.some(id => theme.keywords.some(kw => id.includes(kw)))) {
+                matchedTheme = theme;
+                break;
             }
-        ];
-            {
-                name: '成长与转变',
-                keywords: ['寮€锟?, '杞彉', '鎴愰暱', '鍔涢噺', '鎴愬姛', '鎴愬氨'],
-                description: '浣犳鍦ㄧ粡鍘嗛噸瑕佺殑涓汉鎴愰暱'
-            },
-            {
-                name: '鐖变笌鍏崇郴',
-                keywords: ['鐖辨儏', '鍏虫€€', '鍜岃皭', '閫夋嫨', '杩炴帴'],
-                description: '鍏崇郴鍜屾儏鎰熸槸褰撳墠鐨勭劍锟?
-            },
-            {
-                name: '鎸戞垬涓庣獊锟?,
-                keywords: ['鎸戞垬', '绐佸彉', '鐮村潖', '閲婃斁', '瑙ｆ斁'],
-                description: '浣犳闈复闇€瑕佺獊鐮寸殑鎸戞垬'
-            }
-        ];
-
-        // 缁勫悎鎵€鏈夊叧閿瘝
-        const allKeywords = [
-            ...past.keywords,
-            ...present.keywords,
-            ...future.keywords
-        ];
-
-        // 鎵惧埌鏈€鍖归厤鐨勪富锟?
-        let bestMatch = themes[0];
-        let maxMatches = 0;
-
-        themes.forEach(theme => {
-            const matches = allKeywords.filter(kw =>
-                theme.keywords.some(tk => kw.includes(tk) || tk.includes(kw))
-            ).length;
-
-            if (matches > maxMatches) {
-                maxMatches = matches;
-                bestMatch = theme;
-            }
-        });
-
-        return bestMatch;
-    }
-
-    getQuestionContext() {
-        const contexts = {
-            love: '鐖辨儏鍏崇郴',
-            career: '浜嬩笟鍙戝睍',
-            growth: '涓汉鎴愰暱',
-            general: '浜虹敓鏃呯▼'
-        };
-        return contexts[this.questionType] || contexts.general;
-    }
-
-    generateInsight(past, present, future) {
-        const insights = [
-            `锟?{past.name.zh}锟?{future.name.zh}锛屼綘鐨勬梾绋嬪厖婊′簡鎰忎箟锟?{past.keywords[0]}鐨勭粡鍘嗗閫犱簡鐜板湪锟?{present.keywords[0]}锛岃€岃繖涓€鍒囬兘鎸囧悜${future.keywords[0]}鐨勬湭鏉ャ€俙,
-
-            `杩囧幓锟?{past.name.zh}涓轰綘甯︽潵锟?{past.keywords[0]}鐨勪綋楠屻€傜幇鍦ㄧ殑${present.name.zh}鏄剧ず浣犳澶勪簬${present.keywords[0]}鐨勭姸鎬併€傛湭鏉ョ殑${future.name.zh}棰勭ず鐫€${future.keywords[0]}鍗冲皢鍒版潵銆俙,
-
-            `浣犵殑杩囧幓锟?{past.name.zh}锛夊厖锟?{past.keywords[0]}锛屽閫犱簡褰撲笅锟?{present.name.zh}锛夌殑${present.keywords[0]}銆傚鏋滀綘缁х画褰撳墠鐨勯亾璺紝${future.name.zh}鎵€浠ｈ〃锟?{future.keywords[0]}灏嗘垚涓轰綘鐨勭幇瀹炪€俙
-        ];
-
-        return insights[Math.floor(Math.random() * insights.length)];
-    }
-
-    generateAdvice(past, present, future) {
-        return `
-            鍩轰簬${past.name.zh}鐨勭粡楠岋紝浣犲凡缁忓鍒颁簡瀹濊吹鐨勪竴璇撅拷?
-            鐜板湪锟?{present.name.zh}鎻愰啋浣犺${present.keywords[0]}锛屼繚锟?{present.keywords[1]}锟?
-            灞曟湜鏈潵锟?{future.name.zh}鐨勮兘閲忛紦鍔变綘${future.upright.advice.substring(0, 100)}...
-            璁颁綇锟?{present.upright.advice.substring(0, 100)}...
-        `;
-    }
-}
-
-// 鍒濆锟?
-document.addEventListener('DOMContentLoaded', () => {
-    const spread = new ThreeCardSpread();
-    spread.init();
-});
-
+        }
