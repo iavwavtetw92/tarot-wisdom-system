@@ -185,11 +185,70 @@ class ThreeCardSpread {
         const presentPos = present.isReversed ? ' · 逆位' : ' · 正位';
         const futurePos = future.isReversed ? ' · 逆位' : ' · 正位';
 
+        const pastColor = past.isReversed ? '#ff6b6b' : '#ffd700';
+        const presentColor = present.isReversed ? '#ff6b6b' : '#ffd700';
+        const futureColor = future.isReversed ? '#ff6b6b' : '#ffd700';
+
+        const pastKeywords = past.isReversed ? past.reversed.keywords : past.keywords;
+        const presentKeywords = present.isReversed ? present.reversed.keywords : present.keywords;
+        const futureKeywords = future.isReversed ? future.reversed.keywords : future.keywords;
+
+        const pastMeaning = past.isReversed ? past.reversed.meaning : past.upright.meaning;
+        const presentMeaning = present.isReversed ? present.reversed.meaning : present.upright.meaning;
+        const futureMeaning = future.isReversed ? future.reversed.meaning : future.upright.meaning;
+
         const reading = `
-            <p><strong>📖 三张牌解读</strong></p>
-            <p><strong>【过去${pastPos}】${past.name.zh}</strong><br>${past.symbolism}</p>
-            <p><strong>【现在${presentPos}】${present.name.zh}</strong><br>${present.symbolism}</p>
-            <p><strong>【未来${futurePos}】${future.name.zh}</strong><br>${future.symbolism}</p>
+            <p style="font-size: 1.3rem; margin-bottom: 30px;"><strong>📖 三张牌综合解读</strong></p>
+            
+            <div style="margin-bottom: 30px; padding: 20px; background: rgba(0,0,0,0.2); border-radius: 10px;">
+                <p style="color: ${pastColor}; font-size: 1.2rem; margin-bottom: 10px;">
+                    <strong>【过去${pastPos}】${past.name.zh}</strong>
+                </p>
+                <p style="margin-bottom: 10px;"><em>${past.symbolism}</em></p>
+                <p style="line-height: 1.8;">${pastMeaning}</p>
+                <p style="margin-top: 10px; color: #c9a961;">
+                    <strong>关键词：</strong>${pastKeywords.slice(0, 3).join(' · ')}
+                </p>
+            </div>
+            
+            <div style="margin-bottom: 30px; padding: 20px; background: rgba(0,0,0,0.2); border-radius: 10px;">
+                <p style="color: ${presentColor}; font-size: 1.2rem; margin-bottom: 10px;">
+                    <strong>【现在${presentPos}】${present.name.zh}</strong>
+                </p>
+                <p style="margin-bottom: 10px;"><em>${present.symbolism}</em></p>
+                <p style="line-height: 1.8;">${presentMeaning}</p>
+                <p style="margin-top: 10px; color: #c9a961;">
+                    <strong>关键词：</strong>${presentKeywords.slice(0, 3).join(' · ')}
+                </p>
+            </div>
+            
+            <div style="margin-bottom: 30px; padding: 20px; background: rgba(0,0,0,0.2); border-radius: 10px;">
+                <p style="color: ${futureColor}; font-size: 1.2rem; margin-bottom: 10px;">
+                    <strong>【未来${futurePos}】${future.name.zh}</strong>
+                </p>
+                <p style="margin-bottom: 10px;"><em>${future.symbolism}</em></p>
+                <p style="line-height: 1.8;">${futureMeaning}</p>
+                <p style="margin-top: 10px; color: #c9a961;">
+                    <strong>关键词：</strong>${futureKeywords.slice(0, 3).join(' · ')}
+                </p>
+            </div>
+            
+            <div style="margin-top: 40px; padding: 25px; background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,215,0,0.05)); border-left: 4px solid #ffd700; border-radius: 10px;">
+                <p style="font-size: 1.1rem; margin-bottom: 15px;"><strong>🌟 整体启示</strong></p>
+                <p style="line-height: 1.9; color: #e8d4b8;">
+                    从【${past.name.zh}】的过去，到【${present.name.zh}】的现在，再到【$future.name.zh}】的未来，
+                    这三张牌向你展示了一段重要的生命旅程。${this.getInsight(past, present, future)}
+                </p>
+            </div>
+            
+            <p style="margin-top: 30px; padding: 20px; background: rgba(255,215,0,0.05); border-radius: 10px; text-align: center;">
+                <span style="color: #ffd700;">⭐</span> 
+                <strong style="color: #c9a961;">正位（金色）</strong>：能量的正面展现
+                <span style="margin: 0 20px;">|</span>
+                <span style="color: #ff6b6b;">⭐</span> 
+                <strong style="color: #ff9999;">逆位（红色）</strong>：能量的阻塞或过度
+            </p>
+            
             <p style="margin-top: 20px; color: #c9a961; text-align: center;">✨ 点击上方卡牌可查看详细解读 ✨</p>
         `;
 
@@ -197,6 +256,16 @@ class ThreeCardSpread {
         readingEl.innerHTML = reading;
 
         document.getElementById('reading-section').classList.add('show');
+    }
+
+    getInsight(past, present, future) {
+        const insights = [
+            '过去的经历正在塑造现在，而现在的选择将引领未来。',
+            '注意过去与现在之间的联系，它们是理解未来的钥匙。',
+            '现在是一个转折点，你有力量改变未来的走向。',
+            '这三张牌提示你关注内心的声音，它们正在指引你的道路。'
+        ];
+        return insights[Math.floor(Math.random() * insights.length)];
     }
 }
 
