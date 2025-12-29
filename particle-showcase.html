@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全屏粒子效果演示 - 塔罗智慧系统</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Serif+SC:wght@300;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background: linear-gradient(135deg, #1a0933 0%, #2d1b4e 50%, #1a0933 100%);
+            color: #e8d4b8;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+        }
+
+        .subtitle {
+            color: #c9a961;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        .controls {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .current-card {
+            display: inline-block;
+            padding: 15px 30px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            font-size: 1.3rem;
+            color: #ffd700;
+            margin-bottom: 20px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .card-button {
+            padding: 20px;
+            background: rgba(45, 27, 78, 0.8);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 15px;
+            color: #e8d4b8;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .card-button:hover {
+            border-color: #ffd700;
+            background: rgba(45, 27, 78, 1);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .card-button.active {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.2);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+        }
+
+        .card-emoji {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .card-name-en {
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            color: #ffd700;
+            margin-bottom: 5px;
+        }
+
+        .card-name-zh {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .action-buttons {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            margin: 10px;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            border: none;
+            border-radius: 10px;
+            color: #1a0933;
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(255, 215, 0, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #ffd700;
+            color: #ffd700;
+        }
+
+        .info-box {
+            background: rgba(45, 27, 78, 0.6);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .info-box h3 {
+            color: #ffd700;
+            font-family: 'Cinzel', serif;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .info-box p {
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .feature-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .feature-list li:before {
+            content: '✨';
+            position: absolute;
+            left: 0;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            color: #ffd700;
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .card-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 15px;
+            }
+
+            .card-button {
+                padding: 15px;
+            }
+
+            .card-emoji {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>🌟 全屏粒子效果演示</h1>
+            <p class="subtitle">22张塔罗牌 · 独特粒子主题</p>
+        </header>
+
+        <div class="controls">
+            <div class="current-card" id="current-card">
+                点击下方卡牌查看粒子效果
+            </div>
+        </div>
+
+        <div class="card-grid" id="card-grid">
+            <!-- 卡牌按钮将由JavaScript生成 -->
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn" onclick="randomCard()">🎲 随机抽取</button>
+            <button class="btn btn-secondary" onclick="stopParticles()">⏹️ 停止效果</button>
+        </div>
+
+        <div class="info-box">
+            <h3>✨ 粒子效果特性</h3>
+            <ul class="feature-list">
+                <li><strong>22种独特主题</strong> - 每张塔罗牌都有专属的粒子效果和配色</li>
+                <li><strong>多种运动模式</strong> - 包括漂浮、爆发、旋转、飘落、螺旋等</li>
+                <li><strong>视觉特效</strong> - 光晕、拖尾、闪烁、脉冲、渐变等效果</li>
+                <li><strong>鼠标交互</strong> - 部分粒子会对鼠标移动做出反应</li>
+                <li><strong>性能优化</strong> - 使用Canvas API和requestAnimationFrame确保流畅运行</li>
+                <li><strong>响应式设计</strong> - 自动适应不同屏幕尺寸</li>
+            </ul>
+        </div>
+
+        <div class="info-box">
+            <h3>🎨 粒子主题列表</h3>
+            <p><strong>愚者</strong> - 向上漂浮的金色光球（可交互）</p>
+            <p><strong>魔术师</strong> - 螺旋爆发的彩色火花</p>
+            <p><strong>女祭司</strong> - 轻柔飘落的月尘</p>
+            <p><strong>女皇</strong> - 旋转飞舞的花瓣</p>
+            <p><strong>皇帝</strong> - 下落的金币</p>
+            <p><strong>教皇</strong> - 神圣光芒</p>
+            <p><strong>恋人</strong> - 心形粒子</p>
+            <p><strong>战车</strong> - 快速流星</p>
+            <p><strong>力量</strong> - 金色能量波</p>
+            <p><strong>隐士</strong> - 雪花飘落</p>
+            <p><strong>命运之轮</strong> - 旋转光点</p>
+            <p><strong>正义</strong> - 对称光芒</p>
+            <p><strong>倒吊人</strong> - 倒置水滴</p>
+            <p><strong>死神</strong> - 暗色灰烬</p>
+            <p><strong>节制</strong> - 彩虹水滴</p>
+            <p><strong>恶魔</strong> - 暗红火焰</p>
+            <p><strong>高塔</strong> - 闪电碎片</p>
+            <p><strong>星星</strong> - 闪烁星光</p>
+            <p><strong>月亮</strong> - 银色月光</p>
+            <p><strong>太阳</strong> - 金色阳光</p>
+            <p><strong>审判</strong> - 圣光降临</p>
+            <p><strong>世界</strong> - 宇宙星尘</p>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="index.html" class="back-link">← 返回首页</a>
+        </div>
+    </div>
+
+    <script src="js/fullscreen-particle-system.js"></script>
+    <script>
+        // 塔罗牌数据
+        const cards = [
+            { id: 'fool', emoji: '🃏', nameEn: 'The Fool', nameZh: '愚者' },
+            { id: 'magician', emoji: '🎩', nameEn: 'The Magician', nameZh: '魔术师' },
+            { id: 'high_priestess', emoji: '🌙', nameEn: 'The High Priestess', nameZh: '女祭司' },
+            { id: 'empress', emoji: '👑', nameEn: 'The Empress', nameZh: '女皇' },
+            { id: 'emperor', emoji: '🏛️', nameEn: 'The Emperor', nameZh: '皇帝' },
+            { id: 'hierophant', emoji: '📿', nameEn: 'The Hierophant', nameZh: '教皇' },
+            { id: 'lovers', emoji: '💕', nameEn: 'The Lovers', nameZh: '恋人' },
+            { id: 'chariot', emoji: '🏇', nameEn: 'The Chariot', nameZh: '战车' },
+            { id: 'strength', emoji: '🦁', nameEn: 'Strength', nameZh: '力量' },
+            { id: 'hermit', emoji: '🕯️', nameEn: 'The Hermit', nameZh: '隐士' },
+            { id: 'wheel_of_fortune', emoji: '🎡', nameEn: 'Wheel of Fortune', nameZh: '命运之轮' },
+            { id: 'justice', emoji: '⚖️', nameEn: 'Justice', nameZh: '正义' },
+            { id: 'hanged_man', emoji: '🙃', nameEn: 'The Hanged Man', nameZh: '倒吊人' },
+            { id: 'death', emoji: '💀', nameEn: 'Death', nameZh: '死神' },
+            { id: 'temperance', emoji: '🌈', nameEn: 'Temperance', nameZh: '节制' },
+            { id: 'devil', emoji: '😈', nameEn: 'The Devil', nameZh: '恶魔' },
+            { id: 'tower', emoji: '⚡', nameEn: 'The Tower', nameZh: '高塔' },
+            { id: 'star', emoji: '⭐', nameEn: 'The Star', nameZh: '星星' },
+            { id: 'moon', emoji: '🌕', nameEn: 'The Moon', nameZh: '月亮' },
+            { id: 'sun', emoji: '☀️', nameEn: 'The Sun', nameZh: '太阳' },
+            { id: 'judgement', emoji: '👼', nameEn: 'Judgement', nameZh: '审判' },
+            { id: 'world', emoji: '🌍', nameEn: 'The World', nameZh: '世界' }
+        ];
+
+        // 初始化粒子系统
+        const particleSystem = new FullscreenParticleSystem();
+        let currentCardId = null;
+
+        // 生成卡牌网格
+        function renderCardGrid() {
+            const grid = document.getElementById('card-grid');
+            grid.innerHTML = '';
+
+            cards.forEach(card => {
+                const button = document.createElement('div');
+                button.className = 'card-button';
+                button.onclick = () => activateCard(card);
+                button.innerHTML = `
+                    <span class="card-emoji">${card.emoji}</span>
+                    <div class="card-name-en">${card.nameEn}</div>
+                    <div class="card-name-zh">${card.nameZh}</div>
+                `;
+                button.dataset.cardId = card.id;
+                grid.appendChild(button);
+            });
+        }
+
+        // 激活卡牌粒子效果
+        function activateCard(card) {
+            currentCardId = card.id;
+
+            // 更新UI
+            document.getElementById('current-card').innerHTML = `
+                ${card.emoji} ${card.nameZh} · ${card.nameEn}
+            `;
+
+            // 更新按钮状态
+            document.querySelectorAll('.card-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-card-id="${card.id}"]`).classList.add('active');
+
+            // 激活粒子效果
+            particleSystem.activate(card.id);
+        }
+
+        // 随机抽取卡牌
+        function randomCard() {
+            const randomIndex = Math.floor(Math.random() * cards.length);
+            activateCard(cards[randomIndex]);
+        }
+
+        // 停止粒子效果
+        function stopParticles() {
+            particleSystem.deactivate();
+            currentCardId = null;
+
+            document.getElementById('current-card').textContent = '点击下方卡牌查看粒子效果';
+            document.querySelectorAll('.card-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+        }
+
+        // 初始化
+        renderCardGrid();
+
+        // 自动展示愚者牌效果
+        setTimeout(() => {
+            activateCard(cards[0]);
+        }, 500);
+    </script>
+</body>
+
+</html>
