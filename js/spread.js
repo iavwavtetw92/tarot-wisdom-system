@@ -1,0 +1,233 @@
+// 三张牌抽卡系统
+class ThreeCardSpread {
+    constructor() {
+        this.cards = [];
+        this.drawnCards = [];
+        this.questionType = 'general';
+        this.positions = ['past', 'present', 'future'];
+    }
+
+    async init() {
+        await this.loadCards();
+        this.setupEventListeners();
+    }
+
+    async loadCards() {
+        try {
+            const response = await fetch('data/cards-major.json');
+            const data = await response.json();
+            this.cards = data.cards;
+        } catch (error) {
+            console.error('加载卡牌失败:', error);
+            alert('加载卡牌数据失败，请刷新页面重试');
+        }
+    }
+
+    setupEventListeners() {
+        // 问题类型选择
+        document.querySelectorAll('.question-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.question-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                this.questionType = btn.dataset.type;
+            });
+        });
+
+        // 抽卡按钮
+        document.getElementById('draw-button').addEventListener('click', () => {
+            this.drawCards();
+        });
+    }
+
+    drawCards() {
+        // 禁用按钮
+        const button = document.getElementById('draw-button');
+        button.disabled = true;
+        button.textContent = '抽卡中...';
+
+        // 清空之前的结果
+        document.getElementById('cards-spread').innerHTML = '';
+        document.getElementById('reading-section').classList.remove('show');
+
+        // 随机抽取3张不重复的牌
+        const shuffled = [...this.cards].sort(() => Math.random() - 0.5);
+        this.drawnCards = shuffled.slice(0, 3);
+
+        // 依次显示3张牌
+        this.revealCards();
+    }
+
+    revealCards() {
+        const positionNames = {
+            past: '过去',
+            present: '现在',
+            future: '未来'
+        };
+
+        const spreadEl = document.getElementById('cards-spread');
+
+        this.drawnCards.forEach((card, index) => {
+            setTimeout(() => {
+                const position = this.positions[index];
+                const cardEl = this.createCardElement(card, position, positionNames[position]);
+                spreadEl.appendChild(cardEl);
+
+                // 触发显示动画
+                setTimeout(() => {
+                    cardEl.classList.add('revealed');
+                }, 50);
+
+                // 最后一张牌显示后，生成综合解读
+                if (index === 2) {
+                    setTimeout(() => {
+                        this.generateReading();
+                        document.getElementById('draw-button').disabled = false;
+                        document.getElementById('draw-button').textContent = '🔄 重新抽卡';
+                    }, 800);
+                }
+            }, index * 1000);
+        });
+    }
+
+    createCardElement(card, position, positionName) {
+        const cardEl = document.createElement('div');
+        cardEl.className = 'spread-card';
+        cardEl.innerHTML = `
+            <div class="card-position">${positionName}</div>
+            <div class="mini-card card-${card.id}">
+                <div class="mini-card-emoji">${card.emoji}</div>
+                <div class="mini-card-name">${card.name.en}</div>
+                <div class="mini-card-name-zh">${card.name.zh}</div>
+            </div>
+            <a href="card.html?card=${card.id}" class="view-detail">查看详情 →</a>
+        `;
+        return cardEl;
+    }
+
+    generateReading() {
+        const [past, present, future] = this.drawnCards;
+
+        const reading = this.createReading(past, present, future);
+
+        const readingEl = document.getElementById('reading-content');
+        readingEl.innerHTML = reading;
+
+        document.getElementById('reading-section').classList.add('show');
+    }
+
+    createReading(past, present, future) {
+        // 检测主题
+        const theme = this.detectTheme(past, present, future);
+
+        // 生成综合解读
+        const questionContext = this.getQuestionContext();
+
+        return `
+            <p><strong>✨ 牌阵概况</strong></p>
+            <p>这三张牌为你展现了${theme.name}的旅程，揭示了${questionContext}的重要启示。</p>
+
+            <p><strong>📅 时间线分析</strong></p>
+            <p>
+                <strong>【过去】${past.name.zh}</strong> - ${past.symbolism}<br>
+                ${past.upright.meaning.substring(0, 150)}...<br><br>
+
+                <strong>【现在】${present.name.zh}</strong> - ${present.symbolism}<br>
+                ${present.upright.meaning.substring(0, 150)}...<br><br>
+
+                <strong>【未来】${future.name.zh}</strong> - ${future.symbolism}<br>
+                ${future.upright.meaning.substring(0, 150)}...
+            </p>
+
+            <p><strong>🎯 核心洞察</strong></p>
+            <p>${this.generateInsight(past, present, future)}</p>
+
+            <p><strong>💡 行动建议</strong></p>
+            <p>${this.generateAdvice(past, present, future)}</p>
+
+            <p style="margin-top: 30px; text-align: center; color: #c9a961;">
+                ✦ 点击上方卡牌可查看每张牌的详细解读 ✦
+            </p>
+        `;
+    }
+
+    detectTheme(past, present, future) {
+        const themes = [
+            {
+                name: '成长与转变',
+                keywords: ['开始', '转变', '成长', '力量', '成功', '成就'],
+                description: '你正在经历重要的个人成长'
+            },
+            {
+                name: '爱与关系',
+                keywords: ['爱情', '关怀', '和谐', '选择', '连接'],
+                description: '关系和情感是当前的焦点'
+            },
+            {
+                name: '挑战与突破',
+                keywords: ['挑战', '突变', '破坏', '释放', '解放'],
+                description: '你正面临需要突破的挑战'
+            }
+        ];
+
+        // 组合所有关键词
+        const allKeywords = [
+            ...past.keywords,
+            ...present.keywords,
+            ...future.keywords
+        ];
+
+        // 找到最匹配的主题
+        let bestMatch = themes[0];
+        let maxMatches = 0;
+
+        themes.forEach(theme => {
+            const matches = allKeywords.filter(kw =>
+                theme.keywords.some(tk => kw.includes(tk) || tk.includes(kw))
+            ).length;
+
+            if (matches > maxMatches) {
+                maxMatches = matches;
+                bestMatch = theme;
+            }
+        });
+
+        return bestMatch;
+    }
+
+    getQuestionContext() {
+        const contexts = {
+            love: '爱情关系',
+            career: '事业发展',
+            growth: '个人成长',
+            general: '人生旅程'
+        };
+        return contexts[this.questionType] || contexts.general;
+    }
+
+    generateInsight(past, present, future) {
+        const insights = [
+            `从${past.name.zh}到${future.name.zh}，你的旅程充满了意义。${past.keywords[0]}的经历塑造了现在的${present.keywords[0]}，而这一切都指向${future.keywords[0]}的未来。`,
+
+            `过去的${past.name.zh}为你带来了${past.keywords[0]}的体验。现在的${present.name.zh}显示你正处于${present.keywords[0]}的状态。未来的${future.name.zh}预示着${future.keywords[0]}即将到来。`,
+
+            `你的过去（${past.name.zh}）充满${past.keywords[0]}，塑造了当下（${present.name.zh}）的${present.keywords[0]}。如果你继续当前的道路，${future.name.zh}所代表的${future.keywords[0]}将成为你的现实。`
+        ];
+
+        return insights[Math.floor(Math.random() * insights.length)];
+    }
+
+    generateAdvice(past, present, future) {
+        return `
+            基于${past.name.zh}的经验，你已经学到了宝贵的一课。
+            现在，${present.name.zh}提醒你要${present.keywords[0]}，保持${present.keywords[1]}。
+            展望未来，${future.name.zh}的能量鼓励你${future.upright.advice.substring(0, 100)}...
+            记住：${present.upright.advice.substring(0, 100)}...
+        `;
+    }
+}
+
+// 初始化
+document.addEventListener('DOMContentLoaded', () => {
+    const spread = new ThreeCardSpread();
+    spread.init();
+});

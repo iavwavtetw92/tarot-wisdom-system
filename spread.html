@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>三张牌抽卡 - 塔罗智慧系统</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Serif+SC:wght@300;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/effects.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        .spread-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .spread-logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .spread-logo-icon {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 15px;
+            animation: logo-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes logo-glow {
+
+            0%,
+            100% {
+                filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+                transform: scale(1);
+            }
+
+            50% {
+                filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+                transform: scale(1.05);
+            }
+        }
+
+        .spread-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .spread-subtitle {
+            text-align: center;
+            color: rgba(232, 212, 184, 0.8);
+            margin-bottom: 40px;
+        }
+
+        .question-selector {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .question-btn {
+            padding: 12px 30px;
+            margin: 10px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            color: #ffd700;
+            font-family: 'Noto Serif SC', serif;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .question-btn:hover,
+        .question-btn.active {
+            background: rgba(255, 215, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .draw-button {
+            display: block;
+            margin: 0 auto 60px;
+            padding: 20px 60px;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            border: none;
+            border-radius: 15px;
+            color: #1a0933;
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .draw-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.5);
+        }
+
+        .draw-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .cards-spread {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
+        }
+
+        .spread-card {
+            width: 220px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .spread-card.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card-position {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            color: #c9a961;
+            margin-bottom: 15px;
+        }
+
+        .mini-card {
+            width: 180px;
+            height: 300px;
+            margin: 0 auto;
+            background: rgba(45, 27, 78, 0.8);
+            border: 2px solid #ffd700;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mini-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.3);
+        }
+
+        .mini-card-emoji {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+
+        .mini-card-name {
+            font-size: 1.1rem;
+            color: #ffd700;
+            margin-bottom: 5px;
+        }
+
+        .mini-card-name-zh {
+            font-size: 0.9rem;
+            color: rgba(232, 212, 184, 0.7);
+        }
+
+        .view-detail {
+            margin-top: 15px;
+            padding: 8px 20px;
+            background: rgba(255, 215, 0, 0.2);
+            border: 1px solid #ffd700;
+            border-radius: 8px;
+            color: #ffd700;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .view-detail:hover {
+            background: rgba(255, 215, 0, 0.3);
+        }
+
+        .reading-section {
+            background: rgba(45, 27, 78, 0.6);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s;
+        }
+
+        .reading-section.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reading-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            color: #ffd700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .reading-content {
+            line-height: 2;
+            color: #e8d4b8;
+            font-size: 1.1rem;
+        }
+
+        .reading-content p {
+            margin-bottom: 20px;
+        }
+
+        .back-button {
+            display: block;
+            margin: 40px auto;
+            padding: 12px 40px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            color: #ffd700;
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            transition: all 0.3s;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 768px) {
+            .cards-spread {
+                gap: 30px;
+            }
+
+            .spread-card {
+                width: 100%;
+                max-width: 200px;
+            }
+
+            .mini-card {
+                width: 160px;
+                height: 260px;
+            }
+
+            .reading-section {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="spread-container">
+        <div class="spread-logo">
+            <span class="spread-logo-icon">🌙⭐</span>
+            <h1 class="spread-title">三张牌抽卡</h1>
+            <p class="spread-subtitle">过去 · 现在 · 未来</p>
+        </div>
+
+        <div class="question-selector" id="question-selector">
+            <p style="color: #c9a961; margin-bottom: 20px;">选择你的问题类型（可选）</p>
+            <button class="question-btn" data-type="love">💕 爱情</button>
+            <button class="question-btn" data-type="career">💼 事业</button>
+            <button class="question-btn" data-type="growth">🌱 个人成长</button>
+            <button class="question-btn active" data-type="general">🔮 综合指引</button>
+        </div>
+
+        <button class="draw-button" id="draw-button">🎴 开始抽卡</button>
+
+        <div class="cards-spread" id="cards-spread">
+            <!-- 卡牌将动态插入这里 -->
+        </div>
+
+        <div class="reading-section" id="reading-section">
+            <h2 class="reading-title">📖 综合解读</h2>
+            <div class="reading-content" id="reading-content">
+                <!-- 解读内容将动态插入这里 -->
+            </div>
+        </div>
+
+        <a href="index.html" class="back-button">← 返回首页</a>
+    </div>
+
+    <script src="js/spread.js"></script>
+</body>
+
+</html>

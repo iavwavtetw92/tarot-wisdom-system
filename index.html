@@ -85,6 +85,31 @@
             text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
         }
 
+        .logo {
+            text-align: center;
+        }
+
+        .logo-icon {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 15px;
+            animation: logo-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes logo-glow {
+
+            0%,
+            100% {
+                filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+                transform: scale(1);
+            }
+
+            50% {
+                filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+                transform: scale(1.05);
+            }
+        }
+
         .subtitle {
             font-family: 'Cinzel', serif;
             font-size: 1.5rem;
@@ -256,8 +281,11 @@
 <body>
     <div class="container">
         <header>
-            <h1>TAROT WISDOM</h1>
-            <p class="subtitle">塔罗智慧系统</p>
+            <div class="logo">
+                <span class="logo-icon">🌙⭐</span>
+                <h1>TAROT WISDOM</h1>
+                <p class="subtitle">塔罗智慧系统</p>
+            </div>
             <p class="description">
                 探索22张大阿卡纳的深层智慧，每张牌都是一面镜子，映照出人生旅程的不同阶段。<br>
                 点击任意卡牌，开启你的塔罗之旅。
@@ -265,7 +293,7 @@
         </header>
 
         <div class="quick-actions">
-            <button class="action-btn" onclick="randomCard()">🎲 随机抽牌</button>
+            <a href="spread.html" class="action-btn primary-btn">🔮 三张牌抽卡</a>
             <a href="card.html?card=fool" class="action-btn">🌅 从愚者开始</a>
         </div>
 
