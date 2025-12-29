@@ -1,9 +1,10 @@
-/* 神秘翻牌特效 */
-
 /* 3D翻牌场景 */
 .flip-scene {
     perspective: 1000px;
     cursor: pointer;
+    width: 180px;
+    height: 300px;
+    margin: 0 auto;
 }
 
 /* 翻牌容器 */
@@ -27,6 +28,8 @@
     backface-visibility: hidden;
     border-radius: 15px;
     overflow: hidden;
+    -webkit-backface-visibility: hidden;
+    /* Safari兼容 */
 }
 
 .card-back {
@@ -237,6 +240,11 @@
 
 /* 逆位卡背也旋转 */
 .flip-card.reversed .card-back {
+    transform: rotate(180deg);
+}
+
+/* 逆位卡面中的mini-card内容需要反转回来保持可读 */
+.flip-card.reversed .card-front .mini-card {
     transform: rotate(180deg);
 }
 
