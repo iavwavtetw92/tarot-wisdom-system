@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>设置 - 塔罗智慧系统</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Serif+SC:wght@300;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        .settings-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .settings-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .settings-logo {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            animation: logo-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes logo-glow {
+
+            0%,
+            100% {
+                filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+            }
+
+            50% {
+                filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+            }
+        }
+
+        .settings-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        .section {
+            background: rgba(45, 27, 78, 0.6);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: #ffd700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #c9a961;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            background: rgba(26, 9, 51, 0.8);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            color: #e8d4b8;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .hint {
+            background: rgba(255, 215, 0, 0.1);
+            border-left: 3px solid #ffd700;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 5px;
+            font-size: 0.95rem;
+            color: rgba(232, 212, 184, 0.9);
+            line-height: 1.6;
+        }
+
+        .hint strong {
+            color: #ffd700;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #1a0933;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #ffd700;
+            color: #ffd700;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 215, 0, 0.2);
+        }
+
+        .btn-danger {
+            background: rgba(255, 107, 107, 0.2);
+            border: 2px solid #ff6b6b;
+            color: #ff6b6b;
+        }
+
+        .status-message {
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .status-message.success {
+            background: rgba(76, 175, 80, 0.2);
+            border: 2px solid #4CAF50;
+            color: #4CAF50;
+        }
+
+        .status-message.error {
+            background: rgba(255, 107, 107, 0.2);
+            border: 2px solid #ff6b6b;
+            color: #ff6b6b;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            color: #ffd700;
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: translateX(-5px);
+        }
+
+        @media (max-width: 768px) {
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="settings-container">
+        <div class="settings-header">
+            <div class="settings-logo">🌙⭐</div>
+            <h1 class="settings-title">⚙️ 系统设置</h1>
+        </div>
+
+        <!-- Claude AI 配置 -->
+        <div class="section">
+            <h2 class="section-title">
+                <span>🤖</span>
+                Claude AI 配置
+            </h2>
+
+            <div class="form-group">
+                <label for="api-key">API Key:</label>
+                <input type="password" id="api-key" placeholder="sk-ant-api03-..." autocomplete="off">
+            </div>
+
+            <div class="form-group checkbox-group">
+                <input type="checkbox" id="enable-ai">
+                <label for="enable-ai" style="margin: 0;">启用AI深度解读（实验性功能）</label>
+            </div>
+
+            <div class="hint">
+                <strong>💡 如何获取Claude API Key：</strong><br>
+                1. 访问 <a href="https://console.anthropic.com/" target="_blank"
+                    style="color: #ffd700;">console.anthropic.com</a><br>
+                2. 注册/登录账号<br>
+                3. 创建API Key<br>
+                4. 粘贴到上方输入框<br><br>
+                <strong>⚠️ 安全提示：</strong><br>
+                • API Key仅保存在您的浏览器本地<br>
+                • 不会上传到任何服务器<br>
+                • 请妥善保管您的API Key
+            </div>
+
+            <div class="button-group" style="margin-top: 20px;">
+                <button class="btn btn-primary" id="save-btn">💾 保存配置</button>
+                <button class="btn btn-secondary" id="test-btn">🔬 测试连接</button>
+                <button class="btn btn-danger" id="clear-btn">🗑️ 清除配置</button>
+            </div>
+
+            <div class="status-message" id="status-message"></div>
+        </div>
+
+        <!-- 使用统计 -->
+        <div class="section">
+            <h2 class="section-title">
+                <span>📊</span>
+                使用统计
+            </h2>
+            <p style="color: rgba(232, 212, 184, 0.7);">
+                总抽卡次数: <span id="draw-count" style="color: #ffd700;">0</span><br>
+                AI解读次数: <span id="ai-count" style="color: #ffd700;">0</span>
+            </p>
+        </div>
+
+        <a href="index.html" class="back-link">← 返回首页</a>
+    </div>
+
+    <script>
+        // API Key 管理
+        class APIKeyManager {
+            constructor() {
+                this.storageKey = 'tarotAIConfig';
+                this.loadConfig();
+            }
+
+            loadConfig() {
+                const apiKeyInput = document.getElementById('api-key');
+                const enableCheckbox = document.getElementById('enable-ai');
+
+                const config = this.getConfig();
+                if (config.apiKey) {
+                    apiKeyInput.value = this.decode(config.apiKey);
+                }
+                enableCheckbox.checked = config.enabled || false;
+            }
+
+            getConfig() {
+                const data = localStorage.getItem(this.storageKey);
+                if (!data) return {};
+                try {
+                    return JSON.parse(data);
+                } catch {
+                    return {};
+                }
+            }
+
+            saveConfig(apiKey, enabled) {
+                const config = {
+                    apiKey: this.encode(apiKey),
+                    enabled: enabled,
+                    savedAt: new Date().toISOString()
+                };
+                localStorage.setItem(this.storageKey, JSON.stringify(config));
+            }
+
+            clearConfig() {
+                localStorage.removeItem(this.storageKey);
+            }
+
+            encode(str) {
+                return btoa(str); // Simple Base64 encoding
+            }
+
+            decode(encodedStr) {
+                return atob(encodedStr);
+            }
+
+            async testConnection(apiKey) {
+                const response = await fetch('https://api.anthropic.com/v1/messages', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-api-key': apiKey,
+                        'anthropic-version': '2023-06-01'
+                    },
+                    body: JSON.stringify({
+                        model: 'claude-3-sonnet-20240229',
+                        max_tokens: 50,
+                        messages: [{
+                            role: 'user',
+                            content: 'Say "Connected!" if you receive this.'
+                        }]
+                    })
+                });
+
+                return response.ok;
+            }
+        }
+
+        // 初始化
+        const manager = new APIKeyManager();
+
+        // 保存按钮
+        document.getElementById('save-btn').addEventListener('click', () => {
+            const apiKey = document.getElementById('api-key').value.trim();
+            const enabled = document.getElementById('enable-ai').checked;
+
+            if (!apiKey && enabled) {
+                showMessage('请输入API Key', 'error');
+                return;
+            }
+
+            manager.saveConfig(apiKey, enabled);
+            showMessage('✅ 配置已保存', 'success');
+        });
+
+        // 测试按钮
+        document.getElementById('test-btn').addEventListener('click', async () => {
+            const apiKey = document.getElementById('api-key').value.trim();
+
+            if (!apiKey) {
+                showMessage('请先输入API Key', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('test-btn');
+            btn.textContent = '🔬 测试中...';
+            btn.disabled = true;
+
+            try {
+                const success = await manager.testConnection(apiKey);
+                if (success) {
+                    showMessage('✅ 连接成功！Claude API工作正常', 'success');
+                } else {
+                    showMessage('❌ 连接失败，请检查API Key是否正确', 'error');
+                }
+            } catch (error) {
+                showMessage('❌ 连接错误: ' + error.message, 'error');
+            } finally {
+                btn.textContent = '🔬 测试连接';
+                btn.disabled = false;
+            }
+        });
+
+        // 清除按钮
+        document.getElementById('clear-btn').addEventListener('click', () => {
+            if (confirm('确定要清除所有配置吗？')) {
+                manager.clearConfig();
+                document.getElementById('api-key').value = '';
+                document.getElementById('enable-ai').checked = false;
+                showMessage('✅ 配置已清除', 'success');
+            }
+        });
+
+        // 显示消息
+        function showMessage(message, type) {
+            const msgEl = document.getElementById('status-message');
+            msgEl.textContent = message;
+            msgEl.className = `status-message ${type}`;
+            msgEl.style.display = 'block';
+
+            setTimeout(() => {
+                msgEl.style.display = 'none';
+            }, 5000);
+        }
+
+        // 加载统计
+        const stats = JSON.parse(localStorage.getItem('tarotStats') || '{"draws":0,"ai":0}');
+        document.getElementById('draw-count').textContent = stats.draws || 0;
+        document.getElementById('ai-count').textContent = stats.ai || 0;
+    </script>
+</body>
+
+</html>

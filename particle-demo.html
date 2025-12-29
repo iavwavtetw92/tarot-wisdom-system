@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>粒子效果示例 - 塔罗智慧系统</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Serif+SC:wght@300;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        .demo-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .demo-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .demo-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        .cards-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .particle-card {
+            position: relative;
+            width: 100%;
+            max-width: 350px;
+            height: 583px;
+            margin: 0 auto;
+            border-radius: 20px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1a0933 0%, #2d1b4e 100%);
+            border: 3px solid #ffd700;
+            box-shadow: 0 20px 60px rgba(255, 215, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .particle-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 70px rgba(255, 215, 0, 0.5);
+        }
+
+        .card-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 40px 30px;
+            background: radial-gradient(circle at center,
+                    transparent 0%,
+                    rgba(26, 9, 51, 0.2) 70%,
+                    rgba(26, 9, 51, 0.5) 100%);
+        }
+
+        .card-number {
+            font-family: 'Cinzel', serif;
+            font-size: 4rem;
+            color: rgba(255, 215, 0, 0.4);
+            text-align: center;
+            font-weight: 700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .card-name {
+            text-align: center;
+        }
+
+        .card-name-en {
+            display: block;
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: #ffd700;
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+        }
+
+        .card-name-zh {
+            display: block;
+            font-size: 2rem;
+            color: #e8d4b8;
+            font-weight: 600;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .demo-info {
+            background: rgba(45, 27, 78, 0.6);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .demo-info h3 {
+            font-family: 'Cinzel', serif;
+            color: #ffd700;
+            margin-bottom: 15px;
+        }
+
+        .demo-info p {
+            color: #e8d4b8;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .back-button {
+            display: block;
+            margin: 40px auto;
+            padding: 15px 40px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            color: #ffd700;
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            transition: all 0.3s;
+            text-align: center;
+            max-width: 200px;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="demo-container">
+        <div class="demo-header">
+            <div style="font-size: 3rem; margin-bottom: 15px;">🌙⭐</div>
+            <h1 class="demo-title">粒子效果示例</h1>
+            <p style="color: rgba(232, 212, 184, 0.8);">全新的视觉体验 - 每张牌都有独特的粒子动画</p>
+        </div>
+
+        <div class="demo-info">
+            <h3>🎨 粒子效果类型</h3>
+            <p><strong>愚者</strong> - 漂浮光点：金色粒子向上漂浮，象征无限可能</p>
+            <p><strong>魔术师</strong> - 能量环：红色粒子环绕旋转，展现掌控力量</p>
+            <p><strong>死神</strong> - 消散粒子：灰色粒子逐渐消散，寓意转变重生</p>
+        </div>
+
+        <div class="cards-showcase">
+            <!-- 愚者 -->
+            <div class="particle-card" onclick="window.location.href='card.html?card=fool'">
+                <canvas class="card-particles" id="canvas-fool"></canvas>
+                <div class="card-overlay">
+                    <div class="card-number">0</div>
+                    <div class="card-name">
+                        <span class="card-name-en">THE FOOL</span>
+                        <span class="card-name-zh">愚者</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 魔术师 -->
+            <div class="particle-card" onclick="window.location.href='card.html?card=magician'">
+                <canvas class="card-particles" id="canvas-magician"></canvas>
+                <div class="card-overlay">
+                    <div class="card-number">I</div>
+                    <div class="card-name">
+                        <span class="card-name-en">THE MAGICIAN</span>
+                        <span class="card-name-zh">魔术师</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 死神 -->
+            <div class="particle-card" onclick="window.location.href='card.html?card=death'">
+                <canvas class="card-particles" id="canvas-death"></canvas>
+                <div class="card-overlay">
+                    <div class="card-number">XIII</div>
+                    <div class="card-name">
+                        <span class="card-name-en">DEATH</span>
+                        <span class="card-name-zh">死神</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-info">
+            <h3>💡 技术说明</h3>
+            <p>• 使用HTML5 Canvas实现实时粒子渲染</p>
+            <p>• 每张牌可配置粒子数量、颜色、运动模式</p>
+            <p>• 支持GPU加速，确保60fps流畅动画</p>
+            <p>• 完全可自定义，可为每张牌创建独特效果</p>
+        </div>
+
+        <a href="index.html" class="back-button">← 返回首页</a>
+    </div>
+
+    <script src="js/particle-engine.js"></script>
+    <script>
+        // 初始化粒子效果
+        document.addEventListener('DOMContentLoaded', () => {
+            // 愚者 - 漂浮光点
+            const foolCanvas = document.getElementById('canvas-fool');
+            new ParticleEngine(foolCanvas, PARTICLE_CONFIGS.fool);
+
+            // 魔术师 - 能量环
+            const magicianCanvas = document.getElementById('canvas-magician');
+            new ParticleEngine(magicianCanvas, PARTICLE_CONFIGS.magician);
+
+            // 死神 - 消散粒子
+            const deathCanvas = document.getElementById('canvas-death');
+            new ParticleEngine(deathCanvas, PARTICLE_CONFIGS.death);
+
+            // 响应窗口调整
+            window.addEventListener('resize', () => {
+                [foolCanvas, magicianCanvas, deathCanvas].forEach(canvas => {
+                    const rect = canvas.getBoundingClientRect();
+                    canvas.width = rect.width;
+                    canvas.height = rect.height;
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
