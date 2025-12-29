@@ -5,6 +5,7 @@ class ThreeCardSpread {
         this.drawnCards = [];
         this.questionType = 'general';
         this.positions = ['past', 'present', 'future'];
+        this.flippedCount = 0; // 追踪已翻开的牌数
     }
 
     async init() {
@@ -49,6 +50,9 @@ class ThreeCardSpread {
         document.getElementById('cards-spread').innerHTML = '';
         document.getElementById('reading-section').classList.remove('show');
 
+        // 重置翻牌计数
+        this.flippedCount = 0;
+
         // 随机抽取3张不重复的牌
         const shuffled = [...this.cards].sort(() => Math.random() - 0.5);
         this.drawnCards = shuffled.slice(0, 3).map(card => ({
@@ -80,10 +84,9 @@ class ThreeCardSpread {
                     cardEl.classList.add('revealed');
                 }, 50);
 
-                // 最后一张牌显示后，生成综合解读
+                // 最后一张牌显示后，启用重新抽卡按钮
                 if (index === 2) {
                     setTimeout(() => {
-                        this.generateReading();
                         document.getElementById('draw-button').disabled = false;
                         document.getElementById('draw-button').textContent = '🔄 重新抽卡';
                     }, 800);
