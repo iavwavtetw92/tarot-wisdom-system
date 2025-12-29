@@ -238,16 +238,6 @@
     }
 }
 
-/* 逆位卡背也旋转 */
-.flip-card.reversed .card-back {
-    transform: rotate(180deg);
-}
-
-/* 逆位卡面中的mini-card内容需要反转回来保持可读 */
-.flip-card.reversed .card-front .mini-card {
-    transform: rotate(180deg);
-}
-
 /* 响应式调整 */
 @media (max-width: 768px) {
     .card-back-icon {

@@ -32,7 +32,7 @@ class ThreeCardSpread {
     drawCards() {
         const button = document.getElementById('draw-button');
         button.disabled = true;
-        button.textContent = 'Drawing...';
+        button.textContent = '抽卡中...';
 
         document.getElementById('cards-spread').innerHTML = '';
         document.getElementById('reading-section').classList.remove('show');
@@ -50,9 +50,9 @@ class ThreeCardSpread {
 
     revealCards() {
         const positionNames = {
-            past: 'Past',
-            present: 'Present',
-            future: 'Future'
+            past: '过去',
+            present: '现在',
+            future: '未来'
         };
 
         const spreadEl = document.getElementById('cards-spread');
@@ -70,7 +70,7 @@ class ThreeCardSpread {
                 if (index === 2) {
                     setTimeout(() => {
                         document.getElementById('draw-button').disabled = false;
-                        document.getElementById('draw-button').textContent = 'Draw Again';
+                        document.getElementById('draw-button').textContent = '🔄 重新抽卡';
                     }, 800);
                 }
             }, index * 1000);
@@ -81,16 +81,15 @@ class ThreeCardSpread {
         const cardEl = document.createElement('div');
         cardEl.className = 'spread-card';
 
-        const reversedClass = card.isReversed ? 'reversed' : '';
-        const reversedBadge = card.isReversed ? '<div class="reversed-badge">Reversed</div>' : '';
+        const reversedBadge = card.isReversed ? '<div class="reversed-badge">逆位</div>' : '';
 
         cardEl.innerHTML = `
             <div class="card-position">${positionName}</div>
             <div class="flip-scene">
-                <div class="flip-card ${reversedClass}">
+                <div class="flip-card">
                     <div class="card-face card-back">
                         <div class="card-back-icon">🌙⭐</div>
-                        <div class="flip-hint">Click to flip</div>
+                        <div class="flip-hint">点击翻牌</div>
                     </div>
                     
                     <div class="card-face card-front">
@@ -105,7 +104,7 @@ class ThreeCardSpread {
                     <div class="flip-particles"></div>
                 </div>
             </div>
-            <a href="card.html?card=${card.id}${card.isReversed ? '&reversed=true' : ''}" class="view-detail" style="opacity: 0; pointer-events: none; transition: opacity 0.5s;">View Details</a>
+            <a href="card.html?card=${card.id}${card.isReversed ? '&reversed=true' : ''}" class="view-detail" style="opacity: 0; pointer-events: none; transition: opacity 0.5s;">查看详情 →</a>
         `;
 
         const flipCard = cardEl.querySelector('.flip-card');
@@ -182,11 +181,16 @@ class ThreeCardSpread {
     generateReading() {
         const [past, present, future] = this.drawnCards;
 
+        const pastPos = past.isReversed ? ' · 逆位' : ' · 正位';
+        const presentPos = present.isReversed ? ' · 逆位' : ' · 正位';
+        const futurePos = future.isReversed ? ' · 逆位' : ' · 正位';
+
         const reading = `
-            <p><strong>Your Three Card Reading</strong></p>
-            <p>Past: ${past.name.en} - ${past.symbolism}</p>
-            <p>Present: ${present.name.en} - ${present.symbolism}</p>
-            <p>Future: ${future.name.en} - ${future.symbolism}</p>
+            <p><strong>📖 三张牌解读</strong></p>
+            <p><strong>【过去${pastPos}】${past.name.zh}</strong><br>${past.symbolism}</p>
+            <p><strong>【现在${presentPos}】${present.name.zh}</strong><br>${present.symbolism}</p>
+            <p><strong>【未来${futurePos}】${future.name.zh}</strong><br>${future.symbolism}</p>
+            <p style="margin-top: 20px; color: #c9a961; text-align: center;">✨ 点击上方卡牌可查看详细解读 ✨</p>
         `;
 
         const readingEl = document.getElementById('reading-content');
