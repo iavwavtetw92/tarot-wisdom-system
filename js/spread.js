@@ -51,7 +51,10 @@ class ThreeCardSpread {
 
         // 随机抽取3张不重复的牌
         const shuffled = [...this.cards].sort(() => Math.random() - 0.5);
-        this.drawnCards = shuffled.slice(0, 3);
+        this.drawnCards = shuffled.slice(0, 3).map(card => ({
+            ...card,
+            isReversed: Math.random() < 0.5 // 50%概率逆位
+        }));
 
         // 依次显示3张牌
         this.revealCards();
@@ -92,14 +95,19 @@ class ThreeCardSpread {
     createCardElement(card, position, positionName) {
         const cardEl = document.createElement('div');
         cardEl.className = 'spread-card';
+
+        const reversedClass = card.isReversed ? 'reversed' : '';
+        const reversedBadge = card.isReversed ? '<div class="reversed-badge">逆位</div>' : '';
+
         cardEl.innerHTML = `
             <div class="card-position">${positionName}</div>
-            <div class="mini-card card-${card.id}">
+            <div class="mini-card card-${card.id} ${reversedClass}">
+                ${reversedBadge}
                 <div class="mini-card-emoji">${card.emoji}</div>
                 <div class="mini-card-name">${card.name.en}</div>
                 <div class="mini-card-name-zh">${card.name.zh}</div>
             </div>
-            <a href="card.html?card=${card.id}" class="view-detail">查看详情 →</a>
+            <a href="card.html?card=${card.id}${card.isReversed ? '&reversed=true' : ''}" class="view-detail">查看详情 →</a>
         `;
         return cardEl;
     }
