@@ -1,0 +1,252 @@
+/* 神秘翻牌特效 */
+
+/* 3D翻牌场景 */
+.flip-scene {
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+/* 翻牌容器 */
+.flip-card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transform-style: preserve-3d;
+}
+
+.flip-card.flipped {
+    transform: rotateY(180deg);
+}
+
+/* 卡牌正反面 */
+.card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.card-back {
+    background: linear-gradient(135deg, #1a0933 0%, #2d1b4e 50%, #1a0933 100%);
+    border: 3px solid #ffd700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* 卡背图案 - 神秘星空 */
+.card-back::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(2px 2px at 20% 30%, white, transparent),
+        radial-gradient(2px 2px at 60% 70%, white, transparent),
+        radial-gradient(1px 1px at 50% 50%, white, transparent),
+        radial-gradient(1px 1px at 80% 10%, white, transparent),
+        radial-gradient(2px 2px at 90% 60%, white, transparent),
+        radial-gradient(1px 1px at 33% 85%, white, transparent);
+    background-size: 200% 200%;
+    background-position: 0% 0%;
+    animation: stars-twinkle 4s linear infinite;
+    opacity: 0.6;
+}
+
+@keyframes stars-twinkle {
+
+    0%,
+    100% {
+        opacity: 0.3;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+}
+
+/* 卡背中央图标 */
+.card-back-icon {
+    font-size: 5rem;
+    z-index: 2;
+    animation: icon-pulse 2s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+}
+
+@keyframes icon-pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+    }
+
+    50% {
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 30px rgba(255, 215, 0, 1));
+    }
+}
+
+/* 卡背边框光晕 */
+.card-back::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg,
+            #ffd700, #ffed4e, #ffd700, #ffed4e,
+            #ffd700, #ffed4e, #ffd700);
+    background-size: 400%;
+    border-radius: 15px;
+    z-index: -1;
+    animation: border-glow 3s linear infinite;
+    opacity: 0.5;
+}
+
+@keyframes border-glow {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 400% 50%;
+    }
+}
+
+/* 卡牌正面 */
+.card-front {
+    transform: rotateY(180deg);
+}
+
+/* 翻牌光效 */
+.flip-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    height: 300px;
+    margin: -150px 0 0 -150px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.8) 0%, transparent 70%);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 100;
+    animation: glow-burst 0.8s ease-out;
+}
+
+@keyframes glow-burst {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1.5);
+    }
+}
+
+/* 翻牌粒子爆发 */
+.flip-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 99;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #ffd700;
+    border-radius: 50%;
+    opacity: 0;
+    animation: particle-burst 1s ease-out forwards;
+}
+
+@keyframes particle-burst {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(var(--tx), var(--ty)) scale(0);
+    }
+}
+
+/* 点击提示 */
+.flip-hint {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 215, 0, 0.8);
+    font-size: 0.9rem;
+    text-align: center;
+    z-index: 3;
+    animation: hint-fade 2s ease-in-out infinite;
+}
+
+@keyframes hint-fade {
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* 翻牌震动效果（翻牌前） */
+.flip-scene.ready-to-flip .flip-card {
+    animation: card-shake 0.5s ease-in-out infinite;
+}
+
+@keyframes card-shake {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    25% {
+        transform: translateY(-5px);
+    }
+
+    75% {
+        transform: translateY(5px);
+    }
+}
+
+/* 逆位卡背也旋转 */
+.flip-card.reversed .card-back {
+    transform: rotate(180deg);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .card-back-icon {
+        font-size: 4rem;
+    }
+
+    .flip-hint {
+        font-size: 0.8rem;
+    }
+}

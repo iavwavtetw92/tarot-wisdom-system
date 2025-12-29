@@ -101,15 +101,99 @@ class ThreeCardSpread {
 
         cardEl.innerHTML = `
             <div class="card-position">${positionName}</div>
-            <div class="mini-card card-${card.id} ${reversedClass}">
-                ${reversedBadge}
-                <div class="mini-card-emoji">${card.emoji}</div>
-                <div class="mini-card-name">${card.name.en}</div>
-                <div class="mini-card-name-zh">${card.name.zh}</div>
+            <div class="flip-scene">
+                <div class="flip-card ${reversedClass}">
+                    <!-- 卡背 -->
+                    <div class="card-face card-back">
+                        <div class="card-back-icon">🌙⭐</div>
+                        <div class="flip-hint">点击翻牌</div>
+                    </div>
+                    
+                    <!-- 卡牌正面 -->
+                    <div class="card-face card-front">
+                        <div class="mini-card card-${card.id}">
+                            ${reversedBadge}
+                            <div class="mini-card-emoji">${card.emoji}</div>
+                            <div class="mini-card-name">${card.name.en}</div>
+                            <div class="mini-card-name-zh">${card.name.zh}</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 翻牌特效容器 -->
+                    <div class="flip-particles"></div>
+                </div>
             </div>
-            <a href="card.html?card=${card.id}${card.isReversed ? '&reversed=true' : ''}" class="view-detail">查看详情 →</a>
+            <a href="card.html?card=${card.id}${card.isReversed ? '&reversed=true' : ''}" class="view-detail" style="opacity: 0; pointer-events: none;">查看详情 →</a>
         `;
+
+        // 添加翻牌交互
+        const flipScene = cardEl.querySelector('.flip-scene');
+        const flipCard = cardEl.querySelector('.flip-card');
+        const viewDetail = cardEl.querySelector('.view-detail');
+
+        flipScene.addEventListener('click', () => {
+            if (!flipCard.classList.contains('flipped')) {
+                this.flipCard(flipCard, viewDetail);
+            }
+        });
+
         return cardEl;
+    }
+
+    flipCard(flipCard, viewDetail) {
+        // 翻牌
+        flipCard.classList.add('flipped');
+
+        // 光效爆发
+        this.createFlipGlow(flipCard);
+
+        // 粒子爆发
+        this.createParticleBurst(flipCard);
+
+        // 显示"查看详情"链接
+        setTimeout(() => {
+            viewDetail.style.opacity = '1';
+            viewDetail.style.pointerEvents = 'auto';
+        }, 800);
+    }
+
+    createFlipGlow(flipCard) {
+        const glow = document.createElement('div');
+        glow.className = 'flip-glow';
+        flipCard.appendChild(glow);
+
+        setTimeout(() => {
+            glow.remove();
+        }, 800);
+    }
+
+    createParticleBurst(flipCard) {
+        const container = flipCard.querySelector('.flip-particles');
+        const particleCount = 20;
+
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+
+            // 随机方向
+            const angle = (i / particleCount) * Math.PI * 2;
+            const distance = 50 + Math.random() * 50;
+            const tx = Math.cos(angle) * distance + 'px';
+            const ty = Math.sin(angle) * distance + 'px';
+
+            particle.style.setProperty('--tx', tx);
+            particle.style.setProperty('--ty', ty);
+            particle.style.left = '50%';
+            particle.style.top = '50%';
+            particle.style.animationDelay = (i * 0.02) + 's';
+
+            container.appendChild(particle);
+
+            // 清理
+            setTimeout(() => {
+                particle.remove();
+            }, 1000);
+        }
     }
 
     generateReading() {
