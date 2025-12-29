@@ -7,8 +7,6 @@ class ThreeCardSpread {
         this.positions = ['past', 'present', 'future'];
         this.flippedCount = 0;
 
-        // 初始化全屏粒子系统
-        this.particleSystem = window.FullscreenParticleSystem ? new FullscreenParticleSystem() : null;
     }
 
     async init() {
@@ -136,19 +134,6 @@ class ThreeCardSpread {
         }, 800);
 
         this.flippedCount++;
-
-        // 激活全屏粒子效果（第一张翻开的牌）
-        if (this.flippedCount === 1 && this.particleSystem) {
-            const cardIndex = this.positions.findIndex((_, i) => {
-                const card = document.querySelectorAll('.flip-card')[i];
-                return card && card.classList.contains('flipped');
-            });
-
-            if (cardIndex !== -1 && this.drawnCards[cardIndex]) {
-                const cardId = this.drawnCards[cardIndex].id;
-                this.particleSystem.activate(cardId);
-            }
-        }
 
         if (this.flippedCount === 3) {
             setTimeout(() => {
