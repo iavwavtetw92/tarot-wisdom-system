@@ -236,7 +236,7 @@ class ThreeCardSpread {
             <div style="margin-top: 40px; padding: 25px; background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,215,0,0.05)); border-left: 4px solid #ffd700; border-radius: 10px;">
                 <p style="font-size: 1.1rem; margin-bottom: 15px;"><strong>🌟 整体启示</strong></p>
                 <p style="line-height: 1.9; color: #e8d4b8;">
-                    从【${past.name.zh}】的过去，到【${present.name.zh}】的现在，再到【$future.name.zh}】的未来，
+                    从【${past.name.zh}】的过去，到【${present.name.zh}】的现在，再到【${future.name.zh}】的未来，
                     这三张牌向你展示了一段重要的生命旅程。${this.getInsight(past, present, future)}
                 </p>
             </div>
