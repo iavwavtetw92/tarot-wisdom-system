@@ -1,0 +1,517 @@
+/* ===========================================
+   塔罗牌特效库 - 大阿卡纳22张
+   =========================================== */
+
+/* 0. 愚者 - 漂浮效果 */
+.card-fool .card-image {
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+/* 1. 魔术师 - 旋转光环 */
+.card-magician .card-image {
+    animation: rotate-glow 4s linear infinite;
+}
+
+@keyframes rotate-glow {
+    0% {
+        transform: rotate(0deg);
+        filter: drop-shadow(0 0 10px #ff6b6b);
+    }
+
+    50% {
+        filter: drop-shadow(0 0 20px #ff6b6b);
+    }
+
+    100% {
+        transform: rotate(360deg);
+        filter: drop-shadow(0 0 10px #ff6b6b);
+    }
+}
+
+/* 2. 女祭司 - 神秘面纱 */
+.card-high-priestess .card-image {
+    animation: veil 4s ease-in-out infinite;
+}
+
+@keyframes veil {
+
+    0%,
+    100% {
+        opacity: 0.8;
+        filter: blur(0);
+    }
+
+    50% {
+        opacity: 1;
+        filter: blur(1px);
+    }
+}
+
+/* 3. 皇后 - 花朵绽放 */
+.card-empress .card-image {
+    animation: bloom 3s ease-in-out infinite;
+}
+
+@keyframes bloom {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.9;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+}
+
+/* 4. 皇帝 - 稳固（微震动） */
+.card-emperor .card-image {
+    animation: steady 4s ease-in-out infinite;
+}
+
+@keyframes steady {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-1px);
+    }
+
+    75% {
+        transform: translateX(1px);
+    }
+}
+
+/* 5. 教皇 - 圣光 */
+.card-hierophant .card-image {
+    animation: holy-light 3s ease-in-out infinite;
+}
+
+@keyframes holy-light {
+
+    0%,
+    100% {
+        filter: drop-shadow(0 0 10px gold);
+    }
+
+    50% {
+        filter: drop-shadow(0 0 25px gold) brightness(1.2);
+    }
+}
+
+/* 6. 恋人 - 心跳 */
+.card-lovers .card-image {
+    animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    14% {
+        transform: scale(1.05);
+    }
+
+    28% {
+        transform: scale(1);
+    }
+
+    42% {
+        transform: scale(1.05);
+    }
+
+    56% {
+        transform: scale(1);
+    }
+}
+
+/* 7. 战车 - 前进 */
+.card-chariot .card-image {
+    animation: charge 3s ease-in-out infinite;
+}
+
+@keyframes charge {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(10px);
+    }
+}
+
+/* 8. 力量 - 能量波动 */
+.card-strength .card-image {
+    animation: power-pulse 2s ease-in-out infinite;
+}
+
+@keyframes power-pulse {
+
+    0%,
+    100% {
+        filter: brightness(1);
+    }
+
+    50% {
+        filter: brightness(1.3);
+    }
+}
+
+/* 9. 隐者 - 灯光摇曳 */
+.card-hermit .card-image {
+    animation: lantern 3s ease-in-out infinite;
+}
+
+@keyframes lantern {
+
+    0%,
+    100% {
+        opacity: 0.9;
+        filter: brightness(1);
+    }
+
+    50% {
+        opacity: 1;
+        filter: brightness(1.4);
+    }
+}
+
+/* 10. 命运之轮 - 旋转 */
+.card-wheel-of-fortune .card-image {
+    animation: wheel-spin 6s linear infinite;
+}
+
+@keyframes wheel-spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 11. 正义 - 天平摆动 */
+.card-justice .card-image {
+    animation: balance 2s ease-in-out infinite;
+}
+
+@keyframes balance {
+
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(-5deg);
+    }
+
+    75% {
+        transform: rotate(5deg);
+    }
+}
+
+/* 12. 倒吊人 - 倒立180度 */
+.card-hanged-man {
+    transform-origin: center;
+}
+
+.card-hanged-man .card-image {
+    transform: rotate(180deg);
+    animation: hang-swing 3s ease-in-out infinite;
+}
+
+@keyframes hang-swing {
+
+    0%,
+    100% {
+        transform: rotate(180deg) translateX(0);
+    }
+
+    50% {
+        transform: rotate(180deg) translateX(5px);
+    }
+}
+
+/* 13. 死神 - 渐隐渐现 */
+.card-death .card-image {
+    animation: fade 4s ease-in-out infinite;
+}
+
+@keyframes fade {
+
+    0%,
+    100% {
+        opacity: 0.7;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* 14. 节制 - 流动 */
+.card-temperance .card-image {
+    animation: flow 3s ease-in-out infinite;
+}
+
+@keyframes flow {
+
+    0%,
+    100% {
+        filter: hue-rotate(0deg);
+    }
+
+    50% {
+        filter: hue-rotate(30deg);
+    }
+}
+
+/* 15. 恶魔 - 阴影颤动 */
+.card-devil .card-image {
+    animation: shadow-pulse 2s ease-in-out infinite;
+}
+
+@keyframes shadow-pulse {
+
+    0%,
+    100% {
+        filter: drop-shadow(0 0 10px #8b0000);
+    }
+
+    50% {
+        filter: drop-shadow(0 0 20px #8b0000);
+    }
+}
+
+/* 16. 塔 - 震动倾斜 */
+.card-tower .card-image {
+    animation: shake 0.5s ease-in-out infinite;
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(-2deg);
+    }
+
+    75% {
+        transform: rotate(2deg);
+    }
+}
+
+/* 17. 星星 - 闪烁 */
+.card-star .card-image {
+    animation: twinkle-star 2s ease-in-out infinite;
+}
+
+@keyframes twinkle-star {
+
+    0%,
+    100% {
+        opacity: 0.8;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+}
+
+/* 18. 月亮 - 月相变化 */
+.card-moon .card-image {
+    animation: moon-phase 4s ease-in-out infinite;
+}
+
+@keyframes moon-phase {
+
+    0%,
+    100% {
+        opacity: 0.9;
+        filter: brightness(1);
+    }
+
+    25% {
+        opacity: 1;
+        filter: brightness(1.2);
+    }
+
+    50% {
+        opacity: 0.8;
+        filter: brightness(0.9);
+    }
+
+    75% {
+        opacity: 1;
+        filter: brightness(1.2);
+    }
+}
+
+/* 19. 太阳 - 光芒四射 */
+.card-sun .card-image {
+    animation: radiate 3s ease-in-out infinite;
+}
+
+@keyframes radiate {
+
+    0%,
+    100% {
+        filter: drop-shadow(0 0 15px #ffd700);
+        transform: scale(1);
+    }
+
+    50% {
+        filter: drop-shadow(0 0 30px #ffd700);
+        transform: scale(1.08);
+    }
+}
+
+/* 20. 审判 - 上升 */
+.card-judgement .card-image {
+    animation: ascend 3s ease-in-out infinite;
+}
+
+@keyframes ascend {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+/* 21. 世界 - 环绕旋转 */
+.card-world .card-image {
+    animation: orbit 8s linear infinite;
+}
+
+@keyframes orbit {
+    0% {
+        transform: rotate(0deg) translateX(5px) rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg) translateX(5px) rotate(-360deg);
+    }
+}
+
+/* 通用卡牌颜色主题 */
+.card-fool {
+    --card-theme: #FFD700;
+}
+
+.card-magician {
+    --card-theme: #FF6B6B;
+}
+
+.card-high-priestess {
+    --card-theme: #4A90E2;
+}
+
+.card-empress {
+    --card-theme: #98D8C8;
+}
+
+.card-emperor {
+    --card-theme: #D32F2F;
+}
+
+.card-hierophant {
+    --card-theme: #FFA000;
+}
+
+.card-lovers {
+    --card-theme: #E91E63;
+}
+
+.card-chariot {
+    --card-theme: #757575;
+}
+
+.card-strength {
+    --card-theme: #FF9800;
+}
+
+.card-hermit {
+    --card-theme: #9E9E9E;
+}
+
+.card-wheel-of-fortune {
+    --card-theme: #9C27B0;
+}
+
+.card-justice {
+    --card-theme: #00BCD4;
+}
+
+.card-hanged-man {
+    --card-theme: #009688;
+}
+
+.card-death {
+    --card-theme: #424242;
+}
+
+.card-temperance {
+    --card-theme: #03A9F4;
+}
+
+.card-devil {
+    --card-theme: #8B0000;
+}
+
+.card-tower {
+    --card-theme: #FF5722;
+}
+
+.card-star {
+    --card-theme: #2196F3;
+}
+
+.card-moon {
+    --card-theme: #C0C0C0;
+}
+
+.card-sun {
+    --card-theme: #FFB300;
+}
+
+.card-judgement {
+    --card-theme: #7C4DFF;
+}
+
+.card-world {
+    --card-theme: #4CAF50;
+}

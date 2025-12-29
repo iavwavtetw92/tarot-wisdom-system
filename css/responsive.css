@@ -1,0 +1,141 @@
+/* ===========================================
+   响应式设计
+   =========================================== */
+
+/* 平板设备 (<=768px) */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.5rem;
+        letter-spacing: 2px;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    .tarot-card {
+        width: 250px;
+        height: 417px;
+    }
+
+    .card-image {
+        font-size: 6rem !important;
+    }
+
+    .card-name span:first-child {
+        font-size: 1.1rem;
+    }
+
+    .card-name span:last-child {
+        font-size: 1.3rem;
+    }
+
+    .nav-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .nav-link,
+    .nav-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .section {
+        padding: 20px;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .section-content {
+        font-size: 1rem;
+    }
+}
+
+/* 手机设备 (<=480px) */
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .tarot-card {
+        width: 200px;
+        height: 333px;
+    }
+
+    .card-image {
+        font-size: 4.5rem !important;
+        margin: 20px 0 !important;
+    }
+
+    .card-number {
+        font-size: 1.5rem;
+    }
+
+    .hint {
+        font-size: 0.8rem;
+    }
+
+    .nav-link,
+    .nav-btn {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+}
+
+/* 触摸设备优化 */
+@media (hover: none) and (pointer: coarse) {
+
+    /* 禁用鼠标悬停效果 */
+    .nav-link:hover,
+    .nav-btn:hover {
+        transform: none;
+    }
+
+    /* 增大点击区域 */
+    .tarot-card {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .nav-link,
+    .nav-btn {
+        min-height: 44px;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    /* 移动端禁用某些复杂动画 */
+    .card-image {
+        will-change: transform;
+    }
+}
+
+/* 桌面大屏 (>=1200px) */
+@media (min-width: 1200px) {
+    .content {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .tarot-card {
+        width: 350px;
+        height: 583px;
+    }
+
+    .card-image {
+        font-size: 9rem !important;
+    }
+}
+
+/* 动画性能优化 */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
