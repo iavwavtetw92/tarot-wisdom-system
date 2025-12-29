@@ -297,7 +297,29 @@ createParticleBurst(flipCard) {
     }
 
     detectTheme(past, present, future) {
+    detectTheme(past, present, future) {
         const themes = [
+            {
+                name: 'growth',
+                keywords: ['begin', 'change', 'power', 'success'],
+                description: 'Personal growth journey'
+            },
+            {
+                name: 'relationship',
+                keywords: ['love', 'partner', 'choice', 'connection'],
+                description: 'Focus on relationships'
+            },
+            {
+                name: 'challenge',
+                keywords: ['difficulty', 'obstacle', 'conflict', 'crisis'],
+                description: 'Facing challenges'
+            },
+            {
+                name: 'intuition',
+                keywords: ['wisdom', 'hidden', 'mystery', 'inner'],
+                description: 'Listen to inner voice'
+            }
+        ];
             {
                 name: '成长与转变',
                 keywords: ['寮€锟?, '杞彉', '鎴愰暱', '鍔涢噺', '鎴愬姛', '鎴愬氨'],
