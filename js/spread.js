@@ -1,11 +1,11 @@
-// 三张牌抽卡系�?
+﻿// 涓夊紶鐗屾娊鍗＄郴锟?
 class ThreeCardSpread {
     constructor() {
         this.cards = [];
         this.drawnCards = [];
         this.questionType = 'general';
         this.positions = ['past', 'present', 'future'];
-        this.flippedCount = 0; // 追踪已翻开的牌�?
+        this.flippedCount = 0; // 杩借釜宸茬炕寮€鐨勭墝锟?
     }
 
     async init() {
@@ -19,13 +19,13 @@ class ThreeCardSpread {
             const data = await response.json();
             this.cards = data.cards;
         } catch (error) {
-            console.error('加载卡牌失败:', error);
-            alert('加载卡牌数据失败，请刷新页面重试');
+            console.error('鍔犺浇鍗＄墝澶辫触:', error);
+            alert('鍔犺浇鍗＄墝鏁版嵁澶辫触锛岃鍒锋柊椤甸潰閲嶈瘯');
         }
     }
 
     setupEventListeners() {
-        // 问题类型选择
+        // 闂绫诲瀷閫夋嫨
         document.querySelectorAll('.question-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.question-btn').forEach(b => b.classList.remove('active'));
@@ -34,41 +34,41 @@ class ThreeCardSpread {
             });
         });
 
-        // 抽卡按钮
+        // 鎶藉崱鎸夐挳
         document.getElementById('draw-button').addEventListener('click', () => {
             this.drawCards();
         });
     }
 
     drawCards() {
-        // 禁用按钮
+        // 绂佺敤鎸夐挳
         const button = document.getElementById('draw-button');
         button.disabled = true;
-        button.textContent = '抽卡�?..';
+        button.textContent = '鎶藉崱锟?..';
 
-        // 清空之前的结�?
+        // 娓呯┖涔嬪墠鐨勭粨锟?
         document.getElementById('cards-spread').innerHTML = '';
         document.getElementById('reading-section').classList.remove('show');
 
-        // 重置翻牌计数
+        // 閲嶇疆缈荤墝璁℃暟
         this.flippedCount = 0;
 
-        // 随机抽取3张不重复的牌
+        // 闅忔満鎶藉彇3寮犱笉閲嶅鐨勭墝
         const shuffled = [...this.cards].sort(() => Math.random() - 0.5);
         this.drawnCards = shuffled.slice(0, 3).map(card => ({
             ...card,
-            isReversed: Math.random() < 0.5 // 50%概率逆位
+            isReversed: Math.random() < 0.5 // 50%姒傜巼閫嗕綅
         }));
 
-        // 依次显示3张牌
+        // 渚濇鏄剧ず3寮犵墝
         this.revealCards();
     }
 
     revealCards() {
         const positionNames = {
-            past: '过去',
-            present: '现在',
-            future: '未来'
+            past: '杩囧幓',
+            present: '鐜板湪',
+            future: '鏈潵'
         };
 
         const spreadEl = document.getElementById('cards-spread');
@@ -79,16 +79,16 @@ class ThreeCardSpread {
                 const cardEl = this.createCardElement(card, position, positionNames[position]);
                 spreadEl.appendChild(cardEl);
 
-                // 触发显示动画
+                // 瑙﹀彂鏄剧ず鍔ㄧ敾
                 setTimeout(() => {
                     cardEl.classList.add('revealed');
                 }, 50);
 
-                // 最后一张牌显示后，启用重新抽卡按钮
+                // 鏈€鍚庝竴寮犵墝鏄剧ず鍚庯紝鍚敤閲嶆柊鎶藉崱鎸夐挳
                 if (index === 2) {
                     setTimeout(() => {
                         document.getElementById('draw-button').disabled = false;
-                        document.getElementById('draw-button').textContent = '🔄 重新抽卡';
+                        document.getElementById('draw-button').textContent = '馃攧 閲嶆柊鎶藉崱';
                     }, 800);
                 }
             }, index * 1000);
@@ -100,19 +100,19 @@ class ThreeCardSpread {
         cardEl.className = 'spread-card';
 
         const reversedClass = card.isReversed ? 'reversed' : '';
-        const reversedBadge = card.isReversed ? '<div class="reversed-badge">逆位</div>' : '';
+        const reversedBadge = card.isReversed ? '<div class="reversed-badge">閫嗕綅</div>' : '';
 
         cardEl.innerHTML = `
             <div class="card-position">${positionName}</div>
             <div class="flip-scene">
                 <div class="flip-card ${reversedClass}">
-                    <!-- 卡背 -->
+                    <!-- 鍗¤儗 -->
                     <div class="card-face card-back">
-                        <div class="card-back-icon">🌙�?/div>
-                        <div class="flip-hint">点击翻牌</div>
+                        <div class="card-back-icon">馃寵锟?/div>
+                        <div class="flip-hint">鐐瑰嚮缈荤墝</div>
                     </div>
                     
-                    <!-- 卡牌正面 -->
+                    <!-- 鍗＄墝姝ｉ潰 -->
                     <div class="card-face card-front">
                         <div class="mini-card card-${card.id}">
                             ${reversedBadge}
@@ -122,14 +122,14 @@ class ThreeCardSpread {
                         </div>
                     </div>
                     
-                    <!-- 翻牌特效容器 -->
+                    <!-- 缈荤墝鐗规晥瀹瑰櫒 -->
                     <div class="flip-particles"></div>
                 </div>
             </div>
-            <a href="card.html?card=${card.id}${card.isReversed ? '&reversed=true' : ''}" class="view-detail" style="opacity: 0; pointer-events: none;">查看详情 �?/a>
+            <a href="card.html?card=${card.id}${card.isReversed ? '&reversed=true' : ''}" class="view-detail" style="opacity: 0; pointer-events: none;">鏌ョ湅璇︽儏 锟?/a>
         `;
 
-        // 添加翻牌交互
+        // 娣诲姞缈荤墝浜や簰
         const flipScene = cardEl.querySelector('.flip-scene');
         const flipCard = cardEl.querySelector('.flip-card');
         const viewDetail = cardEl.querySelector('.view-detail');
@@ -144,29 +144,29 @@ class ThreeCardSpread {
     }
 
 flipCard(flipCard, viewDetail) {
-    // 翻牌
+    // 缈荤墝
     flipCard.classList.add('flipped');
 
-    // 光效爆发
+    // 鍏夋晥鐖嗗彂
     this.createFlipGlow(flipCard);
 
-    // 粒子爆发
+    // 绮掑瓙鐖嗗彂
     this.createParticleBurst(flipCard);
 
-    // 显示"查看详情"链接
+    // 鏄剧ず"鏌ョ湅璇︽儏"閾炬帴
     setTimeout(() => {
         viewDetail.style.opacity = '1';
         viewDetail.style.pointerEvents = 'auto';
     }, 800);
 
-    // 增加已翻牌计�?
+    // 澧炲姞宸茬炕鐗岃锟?
     this.flippedCount++;
 
-    // 如果3张牌都翻开了，显示综合解读
+    // 濡傛灉3寮犵墝閮界炕寮€浜嗭紝鏄剧ず缁煎悎瑙ｈ
     if (this.flippedCount === 3) {
         setTimeout(() => {
             this.generateReading();
-        }, 1000); // 等待翻牌动画完成
+        }, 1000); // 绛夊緟缈荤墝鍔ㄧ敾瀹屾垚
     }
 }
 
@@ -188,7 +188,7 @@ createParticleBurst(flipCard) {
         const particle = document.createElement('div');
         particle.className = 'particle';
 
-        // 随机方向
+        // 闅忔満鏂瑰悜
         const angle = (i / particleCount) * Math.PI * 2;
         const distance = 50 + Math.random() * 50;
         const tx = Math.cos(angle) * distance + 'px';
@@ -202,7 +202,7 @@ createParticleBurst(flipCard) {
 
         container.appendChild(particle);
 
-        // 清理
+        // 娓呯悊
         setTimeout(() => {
             particle.remove();
         }, 1000);
@@ -229,7 +229,7 @@ createParticleBurst(flipCard) {
             const particle = document.createElement('div');
             particle.className = 'particle';
 
-            // 随机方向
+            // 闅忔満鏂瑰悜
             const angle = (i / particleCount) * Math.PI * 2;
             const distance = 50 + Math.random() * 50;
             const tx = Math.cos(angle) * distance + 'px';
@@ -243,7 +243,7 @@ createParticleBurst(flipCard) {
 
             container.appendChild(particle);
 
-            // 清理
+            // 娓呯悊
             setTimeout(() => {
                 particle.remove();
             }, 1000);
@@ -262,36 +262,36 @@ createParticleBurst(flipCard) {
     }
 
     createReading(past, present, future) {
-        // 检测主�?
+        // 妫€娴嬩富锟?
         const theme = this.detectTheme(past, present, future);
 
-        // 生成综合解读
+        // 鐢熸垚缁煎悎瑙ｈ
         const questionContext = this.getQuestionContext();
 
         return `
-            <p><strong>�?牌阵概况</strong></p>
-            <p>这三张牌为你展现�?{theme.name}的旅程，揭示�?{questionContext}的重要启示�?/p>
+            <p><strong>锟?鐗岄樀姒傚喌</strong></p>
+            <p>杩欎笁寮犵墝涓轰綘灞曠幇锟?{theme.name}鐨勬梾绋嬶紝鎻ず锟?{questionContext}鐨勯噸瑕佸惎绀猴拷?/p>
 
-            <p><strong>📅 时间线分�?/strong></p>
+            <p><strong>馃搮 鏃堕棿绾垮垎锟?/strong></p>
             <p>
-                <strong>【过去�?{past.name.zh}</strong> - ${past.symbolism}<br>
+                <strong>銆愯繃鍘伙拷?{past.name.zh}</strong> - ${past.symbolism}<br>
                 ${past.upright.meaning.substring(0, 150)}...<br><br>
 
-                <strong>【现在�?{present.name.zh}</strong> - ${present.symbolism}<br>
+                <strong>銆愮幇鍦拷?{present.name.zh}</strong> - ${present.symbolism}<br>
                 ${present.upright.meaning.substring(0, 150)}...<br><br>
 
-                <strong>【未来�?{future.name.zh}</strong> - ${future.symbolism}<br>
+                <strong>銆愭湭鏉ワ拷?{future.name.zh}</strong> - ${future.symbolism}<br>
                 ${future.upright.meaning.substring(0, 150)}...
             </p>
 
-            <p><strong>🎯 核心洞察</strong></p>
+            <p><strong>馃幆 鏍稿績娲炲療</strong></p>
             <p>${this.generateInsight(past, present, future)}</p>
 
-            <p><strong>💡 行动建议</strong></p>
+            <p><strong>馃挕 琛屽姩寤鸿</strong></p>
             <p>${this.generateAdvice(past, present, future)}</p>
 
             <p style="margin-top: 30px; text-align: center; color: #c9a961;">
-                �?点击上方卡牌可查看每张牌的详细解�?�?
+                锟?鐐瑰嚮涓婃柟鍗＄墝鍙煡鐪嬫瘡寮犵墝鐨勮缁嗚В锟?锟?
             </p>
         `;
     }
@@ -299,30 +299,30 @@ createParticleBurst(flipCard) {
     detectTheme(past, present, future) {
         const themes = [
             {
-                name: '成长与转变,
-                keywords: ['开�?, '转变', '成长', '力量', '成功', '成就'],
-                description: '你正在经历重要的个人成长'
+                name: '鎴愰暱涓庤浆鍙?
+                keywords: ['寮€锟?, '杞彉', '鎴愰暱', '鍔涢噺', '鎴愬姛', '鎴愬氨'],
+                description: '浣犳鍦ㄧ粡鍘嗛噸瑕佺殑涓汉鎴愰暱'
             },
             {
-                name: '爱与关系',
-                keywords: ['爱情', '关怀', '和谐', '选择', '连接'],
-                description: '关系和情感是当前的焦�?
+                name: '鐖变笌鍏崇郴',
+                keywords: ['鐖辨儏', '鍏虫€€', '鍜岃皭', '閫夋嫨', '杩炴帴'],
+                description: '鍏崇郴鍜屾儏鎰熸槸褰撳墠鐨勭劍锟?
             },
             {
-                name: '挑战与突�?,
-                keywords: ['挑战', '突变', '破坏', '释放', '解放'],
-                description: '你正面临需要突破的挑战'
+                name: '鎸戞垬涓庣獊锟?,
+                keywords: ['鎸戞垬', '绐佸彉', '鐮村潖', '閲婃斁', '瑙ｆ斁'],
+                description: '浣犳闈复闇€瑕佺獊鐮寸殑鎸戞垬'
             }
         ];
 
-        // 组合所有关键词
+        // 缁勫悎鎵€鏈夊叧閿瘝
         const allKeywords = [
             ...past.keywords,
             ...present.keywords,
             ...future.keywords
         ];
 
-        // 找到最匹配的主�?
+        // 鎵惧埌鏈€鍖归厤鐨勪富锟?
         let bestMatch = themes[0];
         let maxMatches = 0;
 
@@ -342,21 +342,21 @@ createParticleBurst(flipCard) {
 
     getQuestionContext() {
         const contexts = {
-            love: '爱情关系',
-            career: '事业发展',
-            growth: '个人成长',
-            general: '人生旅程'
+            love: '鐖辨儏鍏崇郴',
+            career: '浜嬩笟鍙戝睍',
+            growth: '涓汉鎴愰暱',
+            general: '浜虹敓鏃呯▼'
         };
         return contexts[this.questionType] || contexts.general;
     }
 
     generateInsight(past, present, future) {
         const insights = [
-            `�?{past.name.zh}�?{future.name.zh}，你的旅程充满了意义�?{past.keywords[0]}的经历塑造了现在�?{present.keywords[0]}，而这一切都指向${future.keywords[0]}的未来。`,
+            `锟?{past.name.zh}锟?{future.name.zh}锛屼綘鐨勬梾绋嬪厖婊′簡鎰忎箟锟?{past.keywords[0]}鐨勭粡鍘嗗閫犱簡鐜板湪锟?{present.keywords[0]}锛岃€岃繖涓€鍒囬兘鎸囧悜${future.keywords[0]}鐨勬湭鏉ャ€俙,
 
-            `过去�?{past.name.zh}为你带来�?{past.keywords[0]}的体验。现在的${present.name.zh}显示你正处于${present.keywords[0]}的状态。未来的${future.name.zh}预示着${future.keywords[0]}即将到来。`,
+            `杩囧幓锟?{past.name.zh}涓轰綘甯︽潵锟?{past.keywords[0]}鐨勪綋楠屻€傜幇鍦ㄧ殑${present.name.zh}鏄剧ず浣犳澶勪簬${present.keywords[0]}鐨勭姸鎬併€傛湭鏉ョ殑${future.name.zh}棰勭ず鐫€${future.keywords[0]}鍗冲皢鍒版潵銆俙,
 
-            `你的过去�?{past.name.zh}）充�?{past.keywords[0]}，塑造了当下�?{present.name.zh}）的${present.keywords[0]}。如果你继续当前的道路，${future.name.zh}所代表�?{future.keywords[0]}将成为你的现实。`
+            `浣犵殑杩囧幓锟?{past.name.zh}锛夊厖锟?{past.keywords[0]}锛屽閫犱簡褰撲笅锟?{present.name.zh}锛夌殑${present.keywords[0]}銆傚鏋滀綘缁х画褰撳墠鐨勯亾璺紝${future.name.zh}鎵€浠ｈ〃锟?{future.keywords[0]}灏嗘垚涓轰綘鐨勭幇瀹炪€俙
         ];
 
         return insights[Math.floor(Math.random() * insights.length)];
@@ -364,15 +364,15 @@ createParticleBurst(flipCard) {
 
     generateAdvice(past, present, future) {
         return `
-            基于${past.name.zh}的经验，你已经学到了宝贵的一课�?
-            现在�?{present.name.zh}提醒你要${present.keywords[0]}，保�?{present.keywords[1]}�?
-            展望未来�?{future.name.zh}的能量鼓励你${future.upright.advice.substring(0, 100)}...
-            记住�?{present.upright.advice.substring(0, 100)}...
+            鍩轰簬${past.name.zh}鐨勭粡楠岋紝浣犲凡缁忓鍒颁簡瀹濊吹鐨勪竴璇撅拷?
+            鐜板湪锟?{present.name.zh}鎻愰啋浣犺${present.keywords[0]}锛屼繚锟?{present.keywords[1]}锟?
+            灞曟湜鏈潵锟?{future.name.zh}鐨勮兘閲忛紦鍔变綘${future.upright.advice.substring(0, 100)}...
+            璁颁綇锟?{present.upright.advice.substring(0, 100)}...
         `;
     }
 }
 
-// 初始�?
+// 鍒濆锟?
 document.addEventListener('DOMContentLoaded', () => {
     const spread = new ThreeCardSpread();
     spread.init();

@@ -1,0 +1,99 @@
+/* 愚者卡牌 - 完整粒子特效方案 */
+
+/* 基础卡牌样式 */
+.card-fool {
+    position: relative;
+
+    /* 背景与光效 */
+    background:
+        radial-gradient(circle at 30% 40%,
+            rgba(255, 215, 0, 0.15) 0%,
+            rgba(135, 206, 250, 0.08) 50%,
+            transparent 100%),
+        linear-gradient(to bottom,
+            rgba(135, 206, 250, 0.1) 0%,
+            rgba(255, 215, 0, 0.05) 100%);
+
+    /* 增强边框与阴影 */
+    border-color: rgba(255, 215, 0, 0.6);
+    box-shadow:
+        0 5px 20px rgba(255, 215, 0, 0.3),
+        inset 0 0 30px rgba(255, 255, 255, 0.1);
+
+    /* 性能优化 */
+    will-change: transform, box-shadow;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 悬停状态增强 */
+.card-fool:hover {
+    transform: translateY(-18px) scale(1.03) rotate(1deg) !important;
+    border-color: #ffd700;
+    box-shadow:
+        0 25px 50px rgba(255, 215, 0, 0.6),
+        0 0 40px rgba(255, 215, 0, 0.4),
+        inset 0 0 50px rgba(255, 255, 255, 0.2) !important;
+}
+
+/* 卡牌内容轻柔漂浮动画 */
+.card-fool .mini-card-emoji,
+.card-fool .mini-card-name,
+.card-fool .mini-card-name-zh {
+    animation: fool-gentle-float 5s ease-in-out infinite;
+}
+
+@keyframes fool-gentle-float {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(-0.5deg);
+    }
+
+    50% {
+        transform: translateY(-8px) rotate(0.5deg);
+    }
+}
+
+/* 粒子Canvas容器 */
+.card-fool .particle-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+    z-index: 1;
+}
+
+.card-fool:hover .particle-canvas {
+    opacity: 1;
+}
+
+/* 确保文字在粒子上方 */
+.card-fool .mini-card-emoji,
+.card-fool .mini-card-name,
+.card-fool .mini-card-name-zh {
+    position: relative;
+    z-index: 2;
+}
+
+/* 响应式适配 */
+@media (max-width: 768px) {
+    .card-fool:hover {
+        transform: translateY(-10px) scale(1.02) !important;
+    }
+
+    @keyframes fool-gentle-float {
+
+        0%,
+        100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-5px);
+        }
+    }
+}
