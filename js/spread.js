@@ -1,4 +1,4 @@
-﻿// 三张牌抽卡系�?
+// 三张牌抽卡系�?
 class ThreeCardSpread {
     constructor() {
         this.cards = [];
@@ -299,7 +299,7 @@ createParticleBurst(flipCard) {
     detectTheme(past, present, future) {
         const themes = [
             {
-                name: '成长与转�?,
+                name: '成长与转变,
                 keywords: ['开�?, '转变', '成长', '力量', '成功', '成就'],
                 description: '你正在经历重要的个人成长'
             },
