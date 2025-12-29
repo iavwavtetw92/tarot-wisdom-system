@@ -1,11 +1,11 @@
-// 三张牌抽卡系�?
+﻿// 三张牌抽卡系�?
 class ThreeCardSpread {
     constructor() {
         this.cards = [];
         this.drawnCards = [];
         this.questionType = 'general';
         this.positions = ['past', 'present', 'future'];
-        this.flippedCount = 0; // 追踪已翻开的牌�?
+        this.flippedCount = 0; // 追踪已翻开的牌�?
     }
 
     async init() {
@@ -44,9 +44,9 @@ class ThreeCardSpread {
         // 禁用按钮
         const button = document.getElementById('draw-button');
         button.disabled = true;
-        button.textContent = '抽卡�?..';
+        button.textContent = '抽卡�?..';
 
-        // 清空之前的结�?
+        // 清空之前的结�?
         document.getElementById('cards-spread').innerHTML = '';
         document.getElementById('reading-section').classList.remove('show');
 
@@ -108,7 +108,7 @@ class ThreeCardSpread {
                 <div class="flip-card ${reversedClass}">
                     <!-- 卡背 -->
                     <div class="card-face card-back">
-                        <div class="card-back-icon">🌙�?/div>
+                        <div class="card-back-icon">🌙�?/div>
                         <div class="flip-hint">点击翻牌</div>
                     </div>
                     
@@ -126,7 +126,7 @@ class ThreeCardSpread {
                     <div class="flip-particles"></div>
                 </div>
             </div>
-            <a href="card.html?card=${card.id}${card.isReversed ? '&reversed=true' : ''}" class="view-detail" style="opacity: 0; pointer-events: none;">查看详情 �?/a>
+            <a href="card.html?card=${card.id}${card.isReversed ? '&reversed=true' : ''}" class="view-detail" style="opacity: 0; pointer-events: none;">查看详情 �?/a>
         `;
 
         // 添加翻牌交互
@@ -159,7 +159,7 @@ flipCard(flipCard, viewDetail) {
         viewDetail.style.pointerEvents = 'auto';
     }, 800);
 
-    // 增加已翻牌计�?
+    // 增加已翻牌计�?
     this.flippedCount++;
 
     // 如果3张牌都翻开了，显示综合解读
@@ -209,17 +209,7 @@ createParticleBurst(flipCard) {
     }
 }
 
-generateReading() {
-    const [past, present, future] = this.drawnCards;
 
-    const reading = this.createReading(past, present, future);
-
-    const readingEl = document.getElementById('reading-content');
-    readingEl.innerHTML = reading;
-
-    document.getElementById('reading-section').classList.add('show');
-}
-    }
 
     createFlipGlow(flipCard) {
         const glow = document.createElement('div');
@@ -272,25 +262,25 @@ generateReading() {
     }
 
     createReading(past, present, future) {
-        // 检测主�?
+        // 检测主�?
         const theme = this.detectTheme(past, present, future);
 
         // 生成综合解读
         const questionContext = this.getQuestionContext();
 
         return `
-            <p><strong>�?牌阵概况</strong></p>
-            <p>这三张牌为你展现�?{theme.name}的旅程，揭示�?{questionContext}的重要启示�?/p>
+            <p><strong>�?牌阵概况</strong></p>
+            <p>这三张牌为你展现�?{theme.name}的旅程，揭示�?{questionContext}的重要启示�?/p>
 
-            <p><strong>📅 时间线分�?/strong></p>
+            <p><strong>📅 时间线分�?/strong></p>
             <p>
-                <strong>【过去�?{past.name.zh}</strong> - ${past.symbolism}<br>
+                <strong>【过去�?{past.name.zh}</strong> - ${past.symbolism}<br>
                 ${past.upright.meaning.substring(0, 150)}...<br><br>
 
-                <strong>【现在�?{present.name.zh}</strong> - ${present.symbolism}<br>
+                <strong>【现在�?{present.name.zh}</strong> - ${present.symbolism}<br>
                 ${present.upright.meaning.substring(0, 150)}...<br><br>
 
-                <strong>【未来�?{future.name.zh}</strong> - ${future.symbolism}<br>
+                <strong>【未来�?{future.name.zh}</strong> - ${future.symbolism}<br>
                 ${future.upright.meaning.substring(0, 150)}...
             </p>
 
@@ -301,7 +291,7 @@ generateReading() {
             <p>${this.generateAdvice(past, present, future)}</p>
 
             <p style="margin-top: 30px; text-align: center; color: #c9a961;">
-                �?点击上方卡牌可查看每张牌的详细解�?�?
+                �?点击上方卡牌可查看每张牌的详细解�?�?
             </p>
         `;
     }
@@ -309,17 +299,17 @@ generateReading() {
     detectTheme(past, present, future) {
         const themes = [
             {
-                name: '成长与转�?,
-                keywords: ['开�?, '转变', '成长', '力量', '成功', '成就'],
+                name: '成长与转�?,
+                keywords: ['开�?, '转变', '成长', '力量', '成功', '成就'],
                 description: '你正在经历重要的个人成长'
             },
             {
                 name: '爱与关系',
                 keywords: ['爱情', '关怀', '和谐', '选择', '连接'],
-                description: '关系和情感是当前的焦�?
+                description: '关系和情感是当前的焦�?
             },
             {
-                name: '挑战与突�?,
+                name: '挑战与突�?,
                 keywords: ['挑战', '突变', '破坏', '释放', '解放'],
                 description: '你正面临需要突破的挑战'
             }
@@ -332,7 +322,7 @@ generateReading() {
             ...future.keywords
         ];
 
-        // 找到最匹配的主�?
+        // 找到最匹配的主�?
         let bestMatch = themes[0];
         let maxMatches = 0;
 
@@ -362,11 +352,11 @@ generateReading() {
 
     generateInsight(past, present, future) {
         const insights = [
-            `�?{past.name.zh}�?{future.name.zh}，你的旅程充满了意义�?{past.keywords[0]}的经历塑造了现在�?{present.keywords[0]}，而这一切都指向${future.keywords[0]}的未来。`,
+            `�?{past.name.zh}�?{future.name.zh}，你的旅程充满了意义�?{past.keywords[0]}的经历塑造了现在�?{present.keywords[0]}，而这一切都指向${future.keywords[0]}的未来。`,
 
-            `过去�?{past.name.zh}为你带来�?{past.keywords[0]}的体验。现在的${present.name.zh}显示你正处于${present.keywords[0]}的状态。未来的${future.name.zh}预示着${future.keywords[0]}即将到来。`,
+            `过去�?{past.name.zh}为你带来�?{past.keywords[0]}的体验。现在的${present.name.zh}显示你正处于${present.keywords[0]}的状态。未来的${future.name.zh}预示着${future.keywords[0]}即将到来。`,
 
-            `你的过去�?{past.name.zh}）充�?{past.keywords[0]}，塑造了当下�?{present.name.zh}）的${present.keywords[0]}。如果你继续当前的道路，${future.name.zh}所代表�?{future.keywords[0]}将成为你的现实。`
+            `你的过去�?{past.name.zh}）充�?{past.keywords[0]}，塑造了当下�?{present.name.zh}）的${present.keywords[0]}。如果你继续当前的道路，${future.name.zh}所代表�?{future.keywords[0]}将成为你的现实。`
         ];
 
         return insights[Math.floor(Math.random() * insights.length)];
@@ -374,16 +364,17 @@ generateReading() {
 
     generateAdvice(past, present, future) {
         return `
-            基于${past.name.zh}的经验，你已经学到了宝贵的一课�?
-            现在�?{present.name.zh}提醒你要${present.keywords[0]}，保�?{present.keywords[1]}�?
-            展望未来�?{future.name.zh}的能量鼓励你${future.upright.advice.substring(0, 100)}...
-            记住�?{present.upright.advice.substring(0, 100)}...
+            基于${past.name.zh}的经验，你已经学到了宝贵的一课�?
+            现在�?{present.name.zh}提醒你要${present.keywords[0]}，保�?{present.keywords[1]}�?
+            展望未来�?{future.name.zh}的能量鼓励你${future.upright.advice.substring(0, 100)}...
+            记住�?{present.upright.advice.substring(0, 100)}...
         `;
     }
 }
 
-// 初始�?
+// 初始�?
 document.addEventListener('DOMContentLoaded', () => {
     const spread = new ThreeCardSpread();
     spread.init();
 });
+
